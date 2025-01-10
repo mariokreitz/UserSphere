@@ -1,59 +1,73 @@
 # UserSphere
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.1.
+UserSphere is the **frontend** of a full-stack CRM project, developed as part of a portfolio showcase. Built with **Angular**, **Material Design**, and **RxJS**, it offers role-based dashboards for **administrators** and **regular users**. This CRM provides functionality for managing users, profile settings, and displaying insightful statistics.
 
-## Development server
+The backend for this project is available at: [auth-api-test](https://github.com/mariokreitz/auth-api-test).
 
-To start a local development server, run:
+## 🚀 Features
 
-```bash
-ng serve
-```
+### Admin Dashboard
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Manage users (CRUD functionality).
+- View user statistics and analytics.
+- Profile management and settings.
 
-## Code scaffolding
+### Regular User Dashboard
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Manage personal profile settings.
+- View user-specific dashboard data.
 
-```bash
-ng generate component component-name
-```
+### Authentication
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- User registration with email verification.
+- Password reset functionality.
+- Secure session-based authentication via cookies.
 
-```bash
-ng generate --help
-```
+## 🖼️ Screenshot
 
-## Building
+![UserSphere Mockup](screenshot_mockup.png)
 
-To build the project run:
+## 🛠️ Tech Stack
 
-```bash
-ng build
-```
+- **Angular**: The framework that powers the frontend.
+- **Material Design**: UI components for an intuitive and responsive design.
+- **RxJS**: Reactive programming for seamless data flow and state management.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📥 Setup
 
-## Running unit tests
+Follow these steps to get started with the project:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mariokreitz/UserSphere.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd UserSphere
+   ```
+3. Install the required dependencies:
+   ```bash
+   npm install
+   ```
+4. Run the application:
+   ```bash
+   ng serve
+   ```
+5. Open your browser and visit: `http://localhost:4200/`.
 
-```bash
-ng test
-```
+## 🌍 Deployment
 
-## Running end-to-end tests
+Deployment is **TBA**.
 
-For end-to-end (e2e) testing, run:
+## 📜 License
 
-```bash
-ng e2e
-```
+This project is licensed under the **MIT License**.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🚧 Roadmap
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Implement more detailed user statistics and analytics for admin dashboards.
+- Add multi-language support for a global user base.
+- Create a demo mode to showcase the app’s features with sample data.
+- Optimize the app for mobile responsiveness and enhance the user experience on smaller devices.
+- Further improve both admin and user dashboards.
+- Generate comprehensive project documentation with **Compodoc** for better maintainability and developer understanding.
