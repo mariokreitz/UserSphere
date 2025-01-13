@@ -14,6 +14,14 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  login(email: string, password: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/auth/login`,
+      { email, password },
+      { withCredentials: true }
+    );
+  }
+
   checkSession(): Observable<boolean> {
     return this.http
       .get<{ role: string }>(`${this.apiUrl}/session`, {
