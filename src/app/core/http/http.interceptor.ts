@@ -27,7 +27,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         } else {
           console.error('HTTP Error:', error);
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }
