@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private apiUrl = environment.apiUrl;
   private isAuthenticated = false;
   private userRole: string | null = null;
 
@@ -14,7 +16,9 @@ export class UserService {
 
   checkSession(): Observable<boolean> {
     return this.http
-      .get<{ role: string }>('/session', { withCredentials: true })
+      .get<{ role: string }>(`${this.apiUrl}/session`, {
+        withCredentials: true,
+      })
       .pipe(
         map((response) => {
           this.isAuthenticated = true;
