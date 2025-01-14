@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +12,44 @@ export class UserService {
   private apiUrl = environment.apiUrl;
   private isAuthenticated = false;
   private userRole: string | null = null;
+  private userSubject: BehaviorSubject<User | null> =
+    new BehaviorSubject<User | null>(null);
+  public user$: Observable<User | null> = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/auth/login`,
-      { email, password },
-      { withCredentials: true }
-    );
+    return this.http
+      .post(
+        `${this.apiUrl}/auth/login`,
+        { email, password },
+        { withCredentials: true }
+      )
+      .pipe(
+        map((response: any) => {
+          this.isAuthenticated = true;
+          this.userRole = response.role;
+          return response;
+        }),
+        catchError((error) => {
+          this.isAuthenticated = false;
+          this.userRole = null;
+          this.userSubject.next(null);
+          return of(error);
+        })
+      );
+  }
+
+  logout(): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/user/logout`, { withCredentials: true })
+      .pipe(
+        map(() => {
+          this.isAuthenticated = false;
+          this.userRole = null;
+          this.userSubject.next(null);
+        })
+      );
   }
 
   register(username: string, email: string, password: string): Observable<any> {
@@ -45,6 +75,21 @@ export class UserService {
           this.isAuthenticated = false;
           this.userRole = null;
           return of(false);
+        })
+      );
+  }
+
+  fetchUserProfile(): Observable<User | null> {
+    return this.http
+      .get(`${this.apiUrl}/user/profile`, { withCredentials: true })
+      .pipe(
+        map((userData: any) => {
+          this.userSubject.next(userData);
+          return userData;
+        }),
+        catchError((error) => {
+          this.userSubject.next(null);
+          return of(null);
         })
       );
   }
