@@ -22,6 +22,14 @@ export class UserService {
     );
   }
 
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/register`, {
+      username,
+      email,
+      password,
+    });
+  }
+
   checkSession(): Observable<boolean> {
     return this.http
       .get<{ role: string }>(`${this.apiUrl}/session`, {
