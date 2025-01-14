@@ -3,10 +3,17 @@ import { Component, Input } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatIcon } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, RouterModule, MatListModule, MatIcon],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatListModule,
+    MatIcon,
+    ProfileComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
@@ -41,7 +48,7 @@ export class SidebarComponent {
         icon: 'bar_chart',
         hidden: !this.isAdmin,
       },
-      { label: 'User Profile', link: '/profile', icon: 'person' },
+      { label: 'User Profile', link: './profile', icon: 'person' },
       { label: 'Settings', link: '/settings', icon: 'settings' },
     ].filter((item) => !item.hidden);
 
