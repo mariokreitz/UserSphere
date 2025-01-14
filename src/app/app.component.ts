@@ -17,9 +17,9 @@ export class AppComponent implements OnInit {
         const role = this.userService.getUserRole();
 
         if (role === 'admin') {
-          this.router.navigate(['/admin-dashboard']);
+          this.router.navigate(['/admin']);
         } else if (role === 'user') {
-          this.router.navigate(['/user-dashboard']);
+          this.router.navigate(['/user']);
         }
       } else {
         this.router.navigate(['/login']);
