@@ -1,1 +1,6 @@
-<p>sidebar works!</p>
+<mat-nav-list>
+  <mat-list-item *ngFor="let item of menuItems" [routerLink]="item.link">
+    <mat-icon mat-list-icon>{{ item.icon }}</mat-icon>
+    <span mat-line>{{ item.label }}</span>
+  </mat-list-item>
+</mat-nav-list>
