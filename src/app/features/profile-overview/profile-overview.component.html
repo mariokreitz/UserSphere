@@ -1,0 +1,34 @@
+<div class="profile-overview">
+  <div class="profile-header">
+    <div class="avatar">
+      <img
+        *ngIf="user?.profilePicture; else defaultAvatar"
+        [src]="user?.profilePicture"
+        alt="User Avatar"
+      />
+      <ng-template #defaultAvatar>
+        <img src="assets/default-avatar.png" alt="Default Avatar" />
+      </ng-template>
+    </div>
+    <div class="profile-info">
+      <h2 class="user-name">{{ user?.username || "John Doe" }}</h2>
+      <p class="user-email">{{ user?.email || "johndoe&#64;example.com" }}</p>
+      <p class="user-role">{{ user?.role || "User" }}</p>
+      <button mat-raised-button color="primary" (click)="editProfile()">
+        Edit Profile
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-details">
+    <h3>Additional Information</h3>
+    <div class="detail-item">
+      <label>Full Name:</label>
+      <p>{{ user?.firstName || "John Doe" }}</p>
+    </div>
+    <div class="detail-item">
+      <label>Joined:</label>
+      <p>{{ user?.createdAt | date }}</p>
+    </div>
+  </div>
+</div>
