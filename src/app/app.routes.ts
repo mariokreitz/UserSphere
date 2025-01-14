@@ -7,6 +7,7 @@ import { UserGuard } from './core/auth/user-guard.guard';
 import { RegisterComponent } from './features/register/register.component';
 import { UserManagementComponent } from './features/admin-dashboard/user-management/user-management.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { ProfileOverviewComponent } from './features/profile-overview/profile-overview.component';
 
 export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -21,12 +22,24 @@ export const routes: Routes = [
         title: 'UserManagementComponent',
         component: UserManagementComponent,
       },
+      {
+        path: 'profile',
+        title: 'ProfileOverviewComponent',
+        component: ProfileOverviewComponent,
+      },
     ],
   },
   {
     path: 'user',
     component: UserDashboardComponent,
     canActivate: [UserGuard],
+    children: [
+      {
+        path: 'profile',
+        title: 'ProfileOverviewComponent',
+        component: ProfileOverviewComponent,
+      },
+    ],
   },
   { path: '**', component: NotFoundComponent },
 ];
