@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
     this.userService.checkSession().subscribe((isLoggedIn) => {
       if (isLoggedIn) {
         const role = this.userService.getUserRole();
-        console.log('User is logged in with role:', role);
 
         if (role === 'admin') {
           this.router.navigate(['/admin-dashboard']);
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit {
           this.router.navigate(['/user-dashboard']);
         }
       } else {
-        console.log('User is not logged in');
         this.router.navigate(['/login']);
       }
     });
