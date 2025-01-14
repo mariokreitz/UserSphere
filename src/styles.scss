@@ -19,5 +19,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
+}
+
+app-root {
+  display: block;
+  height: 100%;
+}
+
+app-admin-dashboard,
+app-user-dashboard {
+  display: flex;
+  height: 100%;
 }
