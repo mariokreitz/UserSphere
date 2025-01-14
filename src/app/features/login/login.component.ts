@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
 
   constructor(
@@ -35,20 +35,18 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   onSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      this.userService.login(email, password).subscribe(
-        (response) => {
-          this.router.navigate(['/dashboard']);
+      this.userService.login(email.toLowerCase(), password).subscribe({
+        next: () => {
+          location.reload();
         },
-        (error) => {
-          console.error('Login failed', error);
-        }
-      );
+        error: (error) => {
+          console.error('Login failed:', error);
+        },
+      });
     }
   }
 }

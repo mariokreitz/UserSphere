@@ -1,12 +1,13 @@
-<div class="login-container">
+<div class="background-container">
   <mat-card class="login-card">
     <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Welcome Back</mat-card-title>
+      <mat-card-subtitle>Please login to your account</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
-      <form (ngSubmit)="onSubmit()" class="login-form" [formGroup]="loginForm">
-        <mat-form-field appearance="fill">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Email</mat-label>
           <input matInput type="email" formControlName="email" required />
           <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
@@ -17,7 +18,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="full-width">
           <mat-label>Password</mat-label>
           <input matInput type="password" formControlName="password" required />
           <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
@@ -25,11 +26,16 @@
           </mat-error>
         </mat-form-field>
 
+        <div class="forgot-password">
+          <a routerLink="/forgot-password">Forgot password?</a>
+        </div>
+
         <button
           mat-raised-button
           color="primary"
           type="submit"
           [disabled]="loginForm.invalid"
+          class="full-width"
         >
           Login
         </button>
@@ -37,8 +43,8 @@
     </mat-card-content>
 
     <mat-card-footer>
-      <div class="footer-links">
-        <a routerLink="/register">Don't have an account? Register</a>
+      <div class="register-link">
+        Don’t have an account? <a routerLink="/register">Register here</a>
       </div>
     </mat-card-footer>
   </mat-card>
