@@ -1,0 +1,161 @@
+<div class="audit-logs-container">
+  <h2>Audit Logs</h2>
+
+  <!-- Filters Section -->
+  <mat-card class="filters">
+    <form class="filters-form">
+      <mat-form-field appearance="fill">
+        <mat-label>User</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filters.user"
+          placeholder="Filter by user"
+          name="user"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Action</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filters.action"
+          placeholder="Filter by action"
+          name="action"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filters.startDate"
+          type="date"
+          name="startDate"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>End Date</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filters.endDate"
+          type="date"
+          name="endDate"
+        />
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" (click)="fetchAuditLogs()">
+          Apply Filters
+        </button>
+        <button mat-raised-button color="warn" (click)="resetFilters()">
+          Reset
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+  <!-- Logs Table -->
+  <mat-card>
+    <table mat-table [dataSource]="logs" class="mat-elevation-z8">
+      <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let log">{{ log._id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User</th>
+        <td mat-cell *matCellDef="let log">{{ log.user }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let log">{{ log.action }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="details">
+        <th mat-header-cell *matHeaderCellDef>Details</th>
+        <td mat-cell *matCellDef="let log">{{ log.details }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ip">
+        <th mat-header-cell *matHeaderCellDef>IP</th>
+        <td mat-cell *matCellDef="let log">{{ log.ip }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="timestamp">
+        <th mat-header-cell *matHeaderCellDef>Timestamp</th>
+        <td mat-cell *matCellDef="let log">
+          {{ log.timestamp | date : "short" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card>
+
+  <!-- Numbered Pagination -->
+  <div class="pagination">
+    <!-- Previous Page Button -->
+    <button
+      mat-icon-button
+      (click)="goToPage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- First Page Button -->
+    <button mat-button (click)="goToPage(1)" [class.active]="currentPage === 1">
+      1
+    </button>
+
+    <!-- Ellipsis for Skipped Pages -->
+    <span *ngIf="startPage > 2">...</span>
+
+    <!-- Middle Pages -->
+    <button
+      mat-button
+      *ngFor="let page of paginationPages"
+      [class.active]="page === currentPage"
+      (click)="goToPage(page)"
+    >
+      {{ page }}
+    </button>
+
+    <!-- Ellipsis for Skipped Pages -->
+    <span *ngIf="endPage < totalPages - 1">...</span>
+
+    <!-- Last Page Button -->
+    <button
+      mat-button
+      (click)="goToPage(totalPages)"
+      [class.active]="currentPage === totalPages"
+    >
+      {{ totalPages }}
+    </button>
+
+    <!-- Next Page Button -->
+    <button
+      mat-icon-button
+      (click)="goToPage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+
+    <!-- Dropdown for Quick Navigation -->
+    <mat-form-field appearance="outline" class="page-select">
+      <mat-label>Select Page</mat-label>
+      <mat-select
+        [(value)]="currentPage"
+        (selectionChange)="goToPage($event.value)"
+      >
+        <mat-option *ngFor="let page of totalPagesArray" [value]="page">{{
+          page
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
