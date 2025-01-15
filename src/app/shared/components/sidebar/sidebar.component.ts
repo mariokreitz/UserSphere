@@ -38,13 +38,13 @@ export class SidebarComponent {
 
       {
         label: 'User List',
-        link: '/user-list',
+        link: './user-list',
         icon: 'list',
-        hidden: !this.isAdmin,
+        hidden: this.isAdmin,
       },
       {
-        label: 'Statistics',
-        link: '/statistics',
+        label: 'Audit',
+        link: './audit',
         icon: 'bar_chart',
         hidden: !this.isAdmin,
       },
