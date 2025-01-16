@@ -1,34 +1,83 @@
 <div class="profile-overview">
-  <div class="profile-header">
-    <div class="avatar">
-      <img
-        *ngIf="user?.profilePicture; else defaultAvatar"
-        [src]="user?.profilePicture"
-        alt="User Avatar"
-      />
-      <ng-template #defaultAvatar>
-        <img src="assets/default-avatar.png" alt="Default Avatar" />
-      </ng-template>
-    </div>
-    <div class="profile-info">
-      <h2 class="user-name">{{ user?.username }}</h2>
-      <p class="user-email">{{ user?.email }}</p>
-      <p class="user-role">{{ user?.role }}</p>
-      <button mat-raised-button color="primary" (click)="editProfile()">
+  <mat-card class="main-card" *ngIf="user">
+    <mat-card-content>
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <div class="avatar">
+            <img
+              *ngIf="user.profilePicture; else defaultAvatar"
+              [src]="user.profilePicture"
+              alt="User Avatar"
+            />
+            <ng-template #defaultAvatar>
+              <div class="placeholder-avatar">
+                {{ user.firstName[0] }}{{ user.lastName[0] }}
+              </div>
+            </ng-template>
+          </div>
+          <button mat-mini-fab color="primary" class="change-avatar-btn">
+            <mat-icon>photo_camera</mat-icon>
+          </button>
+        </div>
+        <div class="profile-info">
+          <h1 class="user-full-name">{{ user.firstName }} {{ user.lastName }}</h1>
+          <h2 class="user-name" *ngIf="user">{{ user.username }}</h2>
+          <div class="icon-label">
+            <mat-icon *ngIf="user.role === 'admin'" class="admin">security</mat-icon>
+            <mat-icon *ngIf="user.role === 'user'" class="user">person</mat-icon>
+            <span class="label">{{ user.role | titlecase }}</span>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button color="primary" class="edit-profile-btn" (click)="editProfile()">
+        <mat-icon>edit</mat-icon>
         Edit Profile
       </button>
-    </div>
-  </div>
-
-  <div class="profile-details">
-    <h3>Additional Information</h3>
-    <div class="detail-item">
-      <label>Full Name:</label>
-      <p>{{ user?.firstName }} {{ user?.lastName }}</p>
-    </div>
-    <div class="detail-item">
-      <label>Joined:</label>
-      <p>{{ user?.createdAt | date }}</p>
-    </div>
-  </div>
+      <div class="status-section">
+        <span class="status-badge" *ngIf="user.isVerified">Verified</span>
+        <span class="user-email">{{ user.email }}</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="profile-details">
+        <h3>Additional Information</h3>
+        <div class="info-container">
+          <div class="info-item">
+            <div class="icon-label">
+              <mat-icon>person</mat-icon>
+              <span class="label">Full Name:</span>
+            </div>
+            <span class="value">{{ user.firstName }} {{ user.lastName }}</span>
+          </div>
+          <div class="info-item">
+            <div class="icon-label">
+              <mat-icon>mail</mat-icon>
+              <span class="label">Email:</span>
+            </div>
+            <span class="value">{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <div class="icon-label">
+              <mat-icon>calendar_today</mat-icon>
+              <span class="label">Joined Date:</span>
+            </div>
+            <span class="value">{{ user.createdAt | date: 'mediumDate' }}</span>
+          </div>
+          <div class="info-item">
+            <div class="icon-label">
+              <mat-icon>update</mat-icon>
+              <span class="label">Last Update:</span>
+            </div>
+            <span class="value">{{ user.updatedAt | date: 'mediumDate' }}</span>
+          </div>
+          <div class="info-item">
+            <div class="icon-label">
+              <mat-icon>verified</mat-icon>
+              <span class="label">Verified:</span>
+            </div>
+            <span class="value">{{ user.isVerified ? 'Yes' : 'No' }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
