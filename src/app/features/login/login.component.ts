@@ -40,8 +40,14 @@ export class LoginComponent {
       const { email, password } = this.loginForm.value;
 
       this.userService.login(email.toLowerCase(), password).subscribe({
-        next: () => {
-          location.reload();
+        next: (response) => {
+          if (response.status === 400) {
+            console.error('Login failed:', response.error);
+          } else if (response.status === 429) {
+            console.error('Login failed:', response.error);
+          } else {
+            location.reload();
+          }
         },
         error: (error) => {
           console.error('Login failed:', error);
