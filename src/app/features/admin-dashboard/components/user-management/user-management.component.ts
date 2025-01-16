@@ -29,8 +29,20 @@ import { User } from '../../../../core/models/user.model';
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
+  filteredUsers: User[] = [];
+
   filters = { search: '', role: '' };
-  displayedColumns: string[] = ['username', 'email', 'role', 'actions'];
+  displayedColumns: Array<keyof User | 'actions'> = [
+    'username',
+    'email',
+    'firstName',
+    'lastName',
+    'role',
+    'isVerified',
+    'createdAt',
+    'updatedAt',
+    'actions',
+  ];
 
   constructor(private adminService: AdminService) {}
 
@@ -42,6 +54,7 @@ export class UserManagementComponent implements OnInit {
     this.adminService.getUsers().subscribe({
       next: (data) => {
         this.users = data;
+        this.filteredUsers = data;
       },
       error: (err) => {
         console.error('Error fetching users', err);
@@ -49,9 +62,42 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  filterUser(): void {
+    const search = this.filters.search.toLowerCase();
+    const roleFilter = this.filters.role.toLowerCase();
+
+    this.filteredUsers = this.users.filter((user) => {
+      const matchesSearch =
+        user.username.toLowerCase().includes(search) ||
+        user.email.toLowerCase().includes(search) ||
+        user.firstName.toLowerCase().includes(search) ||
+        user.lastName.toLowerCase().includes(search);
+
+      const matchesRole =
+        roleFilter === '' || user.role.toLowerCase() === roleFilter;
+
+      return matchesSearch && matchesRole;
+    });
+  }
+
   addUser(): void {}
 
-  editUser(): void {}
+  editUser(id: string): void {}
 
-  deleteUser(): void {}
+  deleteUser({ _id: id, username }: User): void {
+    const confirmation = window.confirm(
+      `Are you sure you want to delete user ${username}?`
+    );
+
+    if (confirmation) {
+      this.adminService.deleteUser(id).subscribe({
+        next: () => {
+          this.fetchUsers();
+        },
+        error: (err) => {
+          console.error('Error deleting user', err);
+        },
+      });
+    }
+  }
 }

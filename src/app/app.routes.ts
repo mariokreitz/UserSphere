@@ -9,6 +9,7 @@ import { UserManagementComponent } from './features/admin-dashboard/components/u
 import { NotFoundComponent } from './features/not-found/not-found.component';
 import { ProfileOverviewComponent } from './features/profile-overview/profile-overview.component';
 import { AuditLogsComponent } from './features/admin-dashboard/components/audit-logs/audit-logs.component';
+import { DashboardComponent } from './features/admin-dashboard/components/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
@@ -18,6 +19,11 @@ export const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [AdminGuard],
     children: [
+      {
+        path: '',
+        title: 'Dashboard',
+        component: DashboardComponent,
+      },
       {
         path: 'management',
         title: 'UserManagementComponent',

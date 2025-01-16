@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../../../core/models/user.model';
-import { Log } from '../../../core/models/log.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +14,13 @@ export class AdminService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}/admin/users`, {
+      withCredentials: true,
+    });
+  }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/admin/users`, {
+      body: { userId },
       withCredentials: true,
     });
   }
