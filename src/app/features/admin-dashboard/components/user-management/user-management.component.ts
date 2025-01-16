@@ -84,5 +84,20 @@ export class UserManagementComponent implements OnInit {
 
   editUser(id: string): void {}
 
-  deleteUser(id: string): void {}
+  deleteUser({ _id: id, username }: User): void {
+    const confirmation = window.confirm(
+      `Are you sure you want to delete user ${username}?`
+    );
+
+    if (confirmation) {
+      this.adminService.deleteUser(id).subscribe({
+        next: () => {
+          this.fetchUsers();
+        },
+        error: (err) => {
+          console.error('Error deleting user', err);
+        },
+      });
+    }
+  }
 }
