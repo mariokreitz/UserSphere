@@ -11,9 +11,9 @@
       </ng-template>
     </div>
     <div class="profile-info">
-      <h2 class="user-name">{{ user?.username || "John Doe" }}</h2>
-      <p class="user-email">{{ user?.email || "johndoe&#64;example.com" }}</p>
-      <p class="user-role">{{ user?.role || "User" }}</p>
+      <h2 class="user-name">{{ user?.username }}</h2>
+      <p class="user-email">{{ user?.email }}</p>
+      <p class="user-role">{{ user?.role }}</p>
       <button mat-raised-button color="primary" (click)="editProfile()">
         Edit Profile
       </button>
@@ -24,7 +24,7 @@
     <h3>Additional Information</h3>
     <div class="detail-item">
       <label>Full Name:</label>
-      <p>{{ user?.firstName || "John Doe" }}</p>
+      <p>{{ user?.firstName }} {{ user?.lastName }}</p>
     </div>
     <div class="detail-item">
       <label>Joined:</label>

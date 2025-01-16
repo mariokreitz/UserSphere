@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-user-management',
@@ -27,7 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './user-management.component.scss',
 })
 export class UserManagementComponent implements OnInit {
-  users: any[] = [];
+  users: User[] = [];
   filters = { search: '', role: '' };
   displayedColumns: string[] = ['username', 'email', 'role', 'actions'];
 
