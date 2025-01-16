@@ -18,6 +18,13 @@ export class AdminService {
     });
   }
 
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/admin/users`, {
+      body: { userId },
+      withCredentials: true,
+    });
+  }
+
   getAuditLogs(
     page: number,
     limit: number,
