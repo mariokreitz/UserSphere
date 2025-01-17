@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../core/services/user.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../../shared/components/sidebar/sidebar.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -13,9 +13,9 @@ import { SidebarComponent } from '../../shared/components/sidebar/sidebar.compon
 export class AdminDashboardComponent implements OnInit {
   isAdmin: boolean = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.isAdmin = this.userService.getUserRole() === 'admin';
+    this.isAdmin = this.authService.getUserRole() === 'admin';
   }
 }

@@ -8,7 +8,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class AuthService {
   private apiUrl = environment.apiUrl;
   private isAuthenticated = false;
   private userRole: string | null = null;
@@ -75,21 +75,6 @@ export class UserService {
           this.isAuthenticated = false;
           this.userRole = null;
           return of(false);
-        })
-      );
-  }
-
-  fetchUserProfile(): Observable<User | null> {
-    return this.http
-      .get(`${this.apiUrl}/user/profile`, { withCredentials: true })
-      .pipe(
-        map((userData: any) => {
-          this.userSubject.next(userData);
-          return userData;
-        }),
-        catchError((error) => {
-          this.userSubject.next(null);
-          return of(null);
         })
       );
   }

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.registerForm = this.fb.group(
@@ -69,7 +69,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       const { username, email, password } = this.registerForm.value;
 
-      this.userService.register(username, email, password).subscribe({
+      this.authService.register(username, email, password).subscribe({
         next: () => {
           this.router.navigate(['/login']);
         },

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { UserService } from './core/services/user.service';
+import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,12 +9,12 @@ import { UserService } from './core/services/user.service';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userService.checkSession().subscribe((isLoggedIn) => {
+    this.authService.checkSession().subscribe((isLoggedIn) => {
       if (isLoggedIn) {
-        const role = this.userService.getUserRole();
+        const role = this.authService.getUserRole();
 
         if (role === 'admin') {
           this.router.navigate(['/admin']);
