@@ -42,4 +42,4 @@ testem.log
 Thumbs.db
 
 # Ignore environment files with sensitive information
-/src/environments/*
+/src/environments/environment.ts
