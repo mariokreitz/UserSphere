@@ -41,6 +41,8 @@ export class LoginComponent {
             console.error('Login failed:', response.error);
           } else if (response.status === 429) {
             console.error('Login failed:', response.error);
+          } else if (response.status === 500) {
+            console.error('Login failed:', response.error);
           } else {
             location.reload();
           }
