@@ -13,7 +13,9 @@ export class UserService {
   private userSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.authService.user$ = this.userSubject.asObservable();
+  }
 
   fetchUserProfile(): Observable<User | null> {
     return this.http
@@ -21,13 +23,67 @@ export class UserService {
       .pipe(
         map((userData: any) => {
           this.userSubject.next(userData);
-          this.authService.user$ = this.userSubject.asObservable();
           return userData;
         }),
         catchError((error) => {
           this.userSubject.next(null);
-          this.authService.user$ = this.userSubject.asObservable();
           return of(null);
+        })
+      );
+  }
+
+  updateProfile(
+    firstName: string,
+    lastName: string,
+    username: string
+  ): Observable<User | null> {
+    return this.http
+      .put(
+        `${this.apiUrl}/user/profile`,
+        { firstName, lastName, username },
+        { withCredentials: true }
+      )
+      .pipe(
+        map((userData: any) => {
+          this.userSubject.next(userData);
+          return userData;
+        }),
+        catchError((error) => {
+          this.userSubject.next(null);
+          return of(null);
+        })
+      );
+  }
+
+  updateProfilePicture(profilePictureURL: string): Observable<User | null> {
+    return this.http
+      .put(
+        `${this.apiUrl}/user/profile/picture`,
+        { profilePictureURL },
+        { withCredentials: true }
+      )
+      .pipe(
+        map((userData: any) => {
+          this.userSubject.next(userData);
+          return userData;
+        }),
+        catchError((error) => {
+          this.userSubject.next(null);
+          return of(null);
+        })
+      );
+  }
+
+  logout(): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/user/logout`, {}, { withCredentials: true })
+      .pipe(
+        map(() => {
+          this.userSubject.next(null);
+          return { success: true };
+        }),
+        catchError((error) => {
+          return of({ success: false, error });
         })
       );
   }
