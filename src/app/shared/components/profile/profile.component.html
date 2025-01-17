@@ -1,12 +1,27 @@
 <div class="profile-container">
-  <div class="avatar">
-    <img src="assets/default-avatar.png" alt="User Avatar" />
+  <div class="profile-info online-dot">
+    <img
+      class="profile-avater"
+      *ngIf="user?.profilePicture; else defaultAvatar"
+      [src]="user?.profilePicture"
+      alt="User Avatar"
+    />
+    <ng-template #defaultAvatar>
+      <div class="placeholder-avatar">
+        {{ user?.firstName?.[0] || "N/" }}{{ user?.lastName?.[0] || "A" }}
+      </div>
+    </ng-template>
+    <div class="profile-name">
+      <p class="user-name">{{ user?.username }}</p>
+      <a [routerLink]="'./profile'" class="view-profile"> View Profile </a>
+    </div>
   </div>
-  <div class="profile-info">
-    <p class="user-name">{{ user?.username }}</p>
-    <a [routerLink]="'./profile'" class="view-profile">
-      <mat-icon>settings</mat-icon>
-      View Profile
-    </a>
+  <div class="profile-settings" [matMenuTriggerFor]="menu">
+    <mat-icon>settings</mat-icon>
   </div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 </div>
