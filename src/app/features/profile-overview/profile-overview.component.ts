@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { AuthService } from '../../core/services/auth.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-profile-overview',
@@ -25,11 +25,11 @@ import { AuthService } from '../../core/services/auth.service';
 export class ProfileOverviewComponent implements OnInit {
   user: User | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.authService.user$.subscribe((data) => {
-      this.user = data;
+    this.userService.getUser().subscribe((userData) => {
+      this.user = userData;
     });
   }
 
