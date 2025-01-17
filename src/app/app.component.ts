@@ -12,6 +12,12 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
+    this.authService.getCsrfToken().subscribe({
+      error: (err: unknown) => {
+        console.error('Failed to retrieve CSRF token', err);
+      },
+    });
+
     this.authService.checkSession().subscribe((isLoggedIn) => {
       if (isLoggedIn) {
         const role = this.authService.getUserRole();
