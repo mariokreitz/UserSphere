@@ -14,7 +14,6 @@ export class AuthService {
   private userRole: string | null = null;
   private userSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
-  public user$: Observable<User | null> = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 

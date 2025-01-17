@@ -1,55 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Observable, map, catchError, of, BehaviorSubject } from 'rxjs';
+import { Observable, map, catchError, of } from 'rxjs';
 import { User } from '../../core/models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { AuthService } from '../../core/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUrl = environment.apiUrl;
-  private userSubject: BehaviorSubject<User | null> =
-    new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient, private authService: AuthService) {
-    this.authService.user$ = this.userSubject.asObservable();
-  }
+  constructor(private http: HttpClient) {}
 
-  fetchUserProfile(): Observable<User | null> {
+  getUser(): Observable<User | null> {
     return this.http
       .get(`${this.apiUrl}/user/profile`, { withCredentials: true })
       .pipe(
         map((userData: any) => {
-          this.userSubject.next(userData);
           return userData;
         }),
         catchError((error) => {
-          this.userSubject.next(null);
           return of(null);
         })
       );
   }
 
-  updateProfile(
-    firstName: string,
-    lastName: string,
-    username: string
-  ): Observable<User | null> {
+  updateUser(userData: User): Observable<any> {
     return this.http
-      .put(
-        `${this.apiUrl}/user/profile`,
-        { firstName, lastName, username },
-        { withCredentials: true }
-      )
+      .put(`${this.apiUrl}/user/profile/update`, userData, {
+        withCredentials: true,
+      })
       .pipe(
         map((userData: any) => {
-          this.userSubject.next(userData);
           return userData;
         }),
         catchError((error) => {
-          this.userSubject.next(null);
           return of(null);
         })
       );
@@ -58,17 +43,15 @@ export class UserService {
   updateProfilePicture(profilePictureURL: string): Observable<User | null> {
     return this.http
       .put(
-        `${this.apiUrl}/user/profile/picture`,
+        `${this.apiUrl}/user/profile/update/picture`,
         { profilePictureURL },
         { withCredentials: true }
       )
       .pipe(
         map((userData: any) => {
-          this.userSubject.next(userData);
           return userData;
         }),
         catchError((error) => {
-          this.userSubject.next(null);
           return of(null);
         })
       );
@@ -78,9 +61,8 @@ export class UserService {
     return this.http
       .post(`${this.apiUrl}/user/logout`, {}, { withCredentials: true })
       .pipe(
-        map(() => {
-          this.userSubject.next(null);
-          return { success: true };
+        map((response: any) => {
+          return response;
         }),
         catchError((error) => {
           return of({ success: false, error });
