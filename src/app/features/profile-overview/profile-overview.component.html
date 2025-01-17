@@ -20,8 +20,7 @@
           </button>
         </div>
         <div class="profile-info">
-          <h1 class="user-full-name">{{ user.firstName }} {{ user.lastName }}</h1>
-          <h2 class="user-name" *ngIf="user">{{ user.username }}</h2>
+          <h1 class="user-name" *ngIf="user">{{ user.username }}</h1>
           <div class="icon-label">
             <mat-icon *ngIf="user.role === 'admin'" class="admin">security</mat-icon>
             <mat-icon *ngIf="user.role === 'user'" class="user">person</mat-icon>
@@ -33,10 +32,6 @@
         <mat-icon>edit</mat-icon>
         Edit Profile
       </button>
-      <div class="status-section">
-        <span class="status-badge" *ngIf="user.isVerified">Verified</span>
-        <span class="user-email">{{ user.email }}</span>
-      </div>
       <mat-divider></mat-divider>
       <div class="profile-details">
         <h3>Additional Information</h3>
@@ -47,13 +42,6 @@
               <span class="label">Full Name:</span>
             </div>
             <span class="value">{{ user.firstName }} {{ user.lastName }}</span>
-          </div>
-          <div class="info-item">
-            <div class="icon-label">
-              <mat-icon>mail</mat-icon>
-              <span class="label">Email:</span>
-            </div>
-            <span class="value">{{ user.email }}</span>
           </div>
           <div class="info-item">
             <div class="icon-label">
@@ -74,7 +62,12 @@
               <mat-icon>verified</mat-icon>
               <span class="label">Verified:</span>
             </div>
-            <span class="value">{{ user.isVerified ? 'Yes' : 'No' }}</span>
+            <span
+              class="value"
+              [ngClass]="user.isVerified ? 'verified-true' : 'verified-false'"
+            >
+              {{ user.isVerified ? 'Verified' : 'Not Verified' }}
+            </span>
           </div>
         </div>
       </div>

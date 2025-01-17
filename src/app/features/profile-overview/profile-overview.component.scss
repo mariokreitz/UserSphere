@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     gap: 128px;
+    margin-bottom: 32px;
 
     .avatar-wrapper {
       position: relative;
@@ -62,14 +63,7 @@
       flex: 1;
       text-align: center;
 
-      h1.user-full-name {
-        font-size: 36px;
-        font-weight: 700;
-        margin: 0 0 10px;
-        color: rgba(0, 0, 0, 0.8);
-      }
-
-      h2.user-name {
+      h1.user-name {
         font-size: 50px;
         font-weight: 500;
         margin: 0 0 10px;
@@ -90,7 +84,7 @@
           }
 
           &.user {
-            color: #2196f3; 
+            color: #2196f3;
           }
         }
 
@@ -104,28 +98,8 @@
   }
 
   .edit-profile-btn {
-    margin: 24px 0;
+    margin: 32px 0;
     width: 100%;
-  }
-
-  .status-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 16px 0;
-
-    .status-badge {
-      background: #4caf50;
-      color: white;
-      font-size: 14px;
-      padding: 4px 8px;
-      border-radius: 8px;
-    }
-
-    .user-email {
-      font-size: 14px;
-      color: #666;
-    }
   }
 
   .profile-details {
@@ -171,9 +145,15 @@
 
       .value {
         font-size: 16px;
-        color: rgba(0, 0, 0, 0.6);
-        font-weight: 400;
-        text-align: center;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.7);
+
+        &.verified-true {
+          color: #4caf50;
+        }
+        &.verified-false {
+          color: #f44336;
+        }
       }
     }
   }
