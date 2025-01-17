@@ -25,14 +25,13 @@ export class AdminService {
     });
   }
 
-  createUser(
-    username: string,
-    email: string,
-    password: string,
-    role: string
-  ): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/admin/users/create`, {
-      body: { username, email, password, role },
+  createUser(userData: {
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+  }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/admin/users/create`, userData, {
       withCredentials: true,
     });
   }
