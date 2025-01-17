@@ -1,0 +1,45 @@
+<div class="add-user-dialog">
+  <h2>Add New User</h2>
+  <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username" placeholder="Enter username" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Enter email" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Enter password"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option *ngFor="let role of roles" [value]="role.toLowerCase()">{{
+          role
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-button type="button" mat-dialog-close>Cancel</button>
+      <button
+        mat-raised-button
+        color="primary"
+        class="save-button"
+        type="submit"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
