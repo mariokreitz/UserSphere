@@ -59,6 +59,18 @@ export class AuthService {
     });
   }
 
+  getCsrfToken(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`, { withCredentials: true }).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error fetching CSRF token', error);
+        return of(null);
+      })
+    );
+  }
+
   checkSession(): Observable<boolean> {
     return this.http
       .get<{ role: string }>(`${this.apiUrl}/session`, {
