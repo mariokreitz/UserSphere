@@ -1,51 +1,47 @@
-import { Injectable } from '@angular/core';
 import {
+  HttpInterceptorFn,
   HttpRequest,
-  HttpHandler,
+  HttpHandlerFn,
   HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { HttpXsrfTokenExtractor } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-@Injectable()
-export class HttpInterceptorService implements HttpInterceptor {
-  constructor(
-    private router: Router,
-    private csrfTokenExtractor: HttpXsrfTokenExtractor
-  ) {}
+export const credentialsInterceptorFn: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  const modifiedRequest = req.clone({
+    withCredentials: true,
+  });
+  return next(modifiedRequest);
+};
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const csrfToken = this.csrfTokenExtractor.getToken();
-
-    if (!csrfToken) {
-      return throwError(() => new Error('CSRF Token is missing'));
-    }
-
-    const clonedRequest = req.clone({
-      setHeaders: {
-        'X-Csrf-Token': csrfToken,
-      },
-      withCredentials: true,
-    });
-
-    return next.handle(clonedRequest).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.router.navigate(['/login']);
-        } else if (error.status === 403) {
-          this.router.navigate(['/error']);
-        } else {
-          console.error('HTTP Error:', error);
-        }
-        return throwError(() => error);
-      })
-    );
+export const csrfInterceptorFn: HttpInterceptorFn = (
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  if (req.method === 'GET') {
+    return next(req);
   }
-}
+
+  const csrfToken = getCsrfTokenFromCookie();
+
+  const modifiedRequest = req.clone({
+    headers: req.headers.set('X-CSRF-TOKEN', csrfToken),
+  });
+
+  return next(modifiedRequest);
+};
+
+const getCsrfTokenFromCookie = (): string => {
+  const name = 'csrfToken';
+  const match = document.cookie
+    .split(';')
+    .map((cookie) => cookie.trim())
+    .find((cookie) => cookie.startsWith(`${name}=`));
+
+  if (match) {
+    return decodeURIComponent(match.split('=')[1]);
+  }
+  return '';
+};
