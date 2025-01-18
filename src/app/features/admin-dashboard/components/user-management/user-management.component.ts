@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../../core/models/user.model';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { EditUserDialogComponent } from '../../../../shared/components/edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -111,7 +112,24 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  updateUser(id: string): void {}
+  editUser(user: User): void {
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '500px',
+      data: { user, isAdmin: true },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.adminService.updateUser(user._id, result).subscribe({
+          next: (response) => {
+            this.fetchUsers();
+            console.log('User updated', response);
+          },
+          error: (err) => console.error('Error updating user', err),
+        });
+      }
+    });
+  }
 
   deleteUser({ _id: id, username }: User): void {
     const confirmation = window.confirm(
