@@ -36,6 +36,19 @@ export class AdminService {
     });
   }
 
+  updateUser(
+    userId: string,
+    userData: { username?: string; email?: string; role?: string }
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${this.apiUrl}/admin/users/update`,
+      { userId, ...userData },
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
   getAuditLogs(
     page: number,
     limit: number,
