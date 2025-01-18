@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getCsrfToken().subscribe({
+      next: (response) => {
+        console.log(response);
+      },
       error: (err: unknown) => {
         console.error('Failed to retrieve CSRF token', err);
       },

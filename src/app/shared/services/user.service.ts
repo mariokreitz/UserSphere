@@ -56,17 +56,4 @@ export class UserService {
         })
       );
   }
-
-  logout(): Observable<any> {
-    return this.http
-      .post(`${this.apiUrl}/user/logout`, {}, { withCredentials: true })
-      .pipe(
-        map((response: any) => {
-          return response;
-        }),
-        catchError((error) => {
-          return of({ success: false, error });
-        })
-      );
-  }
 }

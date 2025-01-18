@@ -5,6 +5,7 @@ import { User } from '../../../core/models/user.model';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,11 @@ import { MatMenuModule } from '@angular/material/menu';
 })
 export class ProfileComponent implements OnInit {
   user: User | null = null;
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.userService.getUser().subscribe((userData) => {
@@ -23,13 +28,10 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout().subscribe({
+    this.authService.logout().subscribe({
       next: (response) => {
-        if (response.success) {
-          this.router.navigate(['/login']);
-        } else {
-          console.error('Error logging out', response.error);
-        }
+        console.log(response);
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.log('Error logging out', error);

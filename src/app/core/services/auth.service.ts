@@ -43,10 +43,11 @@ export class AuthService {
     return this.http
       .post(`${this.apiUrl}/user/logout`, { withCredentials: true })
       .pipe(
-        map(() => {
+        map((response: any) => {
           this.isAuthenticated = false;
           this.userRole = null;
           this.userSubject.next(null);
+          return response;
         })
       );
   }
