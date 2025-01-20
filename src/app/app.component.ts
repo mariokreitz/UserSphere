@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     const res = this.authService.checkSession().subscribe({
       next: (loggedIn) => {
         const userRole = this.authService.getUserRole();
-        const route = loggedIn && userRole ? `/${userRole}` : '';
+        const route = loggedIn && userRole ? `/${userRole}` : ''; // entweder '' für home oder einfach '/login' für login =)
         this.router.navigate([route]);
       },
       error: (err) => {
