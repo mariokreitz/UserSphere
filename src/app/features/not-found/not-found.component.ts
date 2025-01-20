@@ -14,7 +14,7 @@ export class NotFoundComponent {
     if (window.history.length > 1) {
       this.location.back();
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['']);
     }
   }
 }

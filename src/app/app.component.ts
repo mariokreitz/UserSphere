@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
       next: (response) => {
         console.log(response);
       },
-      error: (err: unknown) => {
+      error: (err) => {
         console.error('Failed to retrieve CSRF token', err);
       },
     });
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
           this.router.navigate(['/user']);
         }
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigate(['']);
       }
     });
   }
