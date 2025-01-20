@@ -21,26 +21,19 @@
         </div>
         <div class="profile-info">
           <h1 class="user-name" *ngIf="user">{{ user.username }}</h1>
-          <div class="icon-label">
-            <mat-icon *ngIf="user.role === 'admin'" class="admin"
-              >security</mat-icon
-            >
-            <mat-icon *ngIf="user.role === 'user'" class="user"
-              >person</mat-icon
-            >
-            <span class="label">{{ user.role | titlecase }}</span>
+          <div class="role-info">
+            <div class="icon-label">
+              <mat-icon *ngIf="user.role === 'admin'" class="admin">security</mat-icon>
+              <mat-icon *ngIf="user.role === 'user'" class="user">person</mat-icon>
+              <span class="label">{{ user.role | titlecase }}</span>
+            </div>
+            <button mat-raised-button color="primary" class="edit-profile-btn" (click)="editProfile()">
+              <mat-icon>edit</mat-icon>
+              Edit Profile
+            </button>
           </div>
         </div>
       </div>
-      <button
-        mat-raised-button
-        color="primary"
-        class="edit-profile-btn"
-        (click)="editProfile()"
-      >
-        <mat-icon>edit</mat-icon>
-        Edit Profile
-      </button>
       <mat-divider></mat-divider>
       <div class="profile-details">
         <h3>Additional Information</h3>
@@ -54,32 +47,32 @@
           </div>
           <div class="info-item">
             <div class="icon-label">
+              <mat-icon>email</mat-icon>
+              <span class="label">Email:</span>
+            </div>
+            <span class="value">{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <div class="icon-label">
               <mat-icon>calendar_today</mat-icon>
               <span class="label">Joined Date:</span>
             </div>
-            <span class="value">{{
-              user.createdAt | date : "mediumDate"
-            }}</span>
+            <span class="value">{{ user.createdAt | date:'mediumDate' }}</span>
           </div>
           <div class="info-item">
             <div class="icon-label">
               <mat-icon>update</mat-icon>
               <span class="label">Last Update:</span>
             </div>
-            <span class="value">{{
-              user.updatedAt | date : "mediumDate"
-            }}</span>
+            <span class="value">{{ user.updatedAt | date:'mediumDate' }}</span>
           </div>
           <div class="info-item">
             <div class="icon-label">
               <mat-icon>verified</mat-icon>
               <span class="label">Verified:</span>
             </div>
-            <span
-              class="value"
-              [ngClass]="user.isVerified ? 'verified-true' : 'verified-false'"
-            >
-              {{ user.isVerified ? "Verified" : "Not Verified" }}
+            <span class="value" [ngClass]="user.isVerified ? 'verified-true' : 'verified-false'">
+              {{ user.isVerified ? 'Verified' : 'Not Verified' }}
             </span>
           </div>
         </div>
