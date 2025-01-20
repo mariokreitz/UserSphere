@@ -21,18 +21,15 @@ export class AppComponent implements OnInit {
       },
     });
 
-    this.authService.checkSession().subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
-        const role = this.authService.getUserRole();
-
-        if (role === 'admin') {
-          this.router.navigate(['/admin']);
-        } else if (role === 'user') {
-          this.router.navigate(['/user']);
-        }
-      } else {
-        this.router.navigate(['']); // '' zur home.component ansonsten einfach '/login' für den login screen
-      }
+    const res = this.authService.checkSession().subscribe({
+      next: (loggedIn) => {
+        const userRole = this.authService.getUserRole();
+        const route = loggedIn && userRole ? `/${userRole}` : '';
+        this.router.navigate([route]);
+      },
+      error: (err) => {
+        console.error('Failed to check session', err);
+      },
     });
   }
 }
