@@ -10,8 +10,10 @@ import { NotFoundComponent } from './features/not-found/not-found.component';
 import { ProfileOverviewComponent } from './features/profile-overview/profile-overview.component';
 import { AuditLogsComponent } from './features/admin-dashboard/components/audit-logs/audit-logs.component';
 import { DashboardComponent } from './features/admin-dashboard/components/dashboard/dashboard.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
+  { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   {
