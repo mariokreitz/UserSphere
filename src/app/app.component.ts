@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
           this.router.navigate(['/user']);
         }
       } else {
-        this.router.navigate(['']);
+        this.router.navigate(['']); // '' zur home.component ansonsten einfach '/login' für den login screen
       }
     });
   }
