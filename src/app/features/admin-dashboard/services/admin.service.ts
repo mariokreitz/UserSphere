@@ -19,10 +19,34 @@ export class AdminService {
   }
 
   deleteUser(userId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/admin/users`, {
+    return this.http.delete(`${this.apiUrl}/admin/users/delete`, {
       body: { userId },
       withCredentials: true,
     });
+  }
+
+  createUser(userData: {
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+  }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/admin/users/create`, userData, {
+      withCredentials: true,
+    });
+  }
+
+  updateUser(
+    userId: string,
+    userData: { username?: string; email?: string; role?: string }
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${this.apiUrl}/admin/users/update`,
+      { userId, ...userData },
+      {
+        withCredentials: true,
+      }
+    );
   }
 
   getAuditLogs(

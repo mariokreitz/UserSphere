@@ -9,7 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../../core/models/user.model';
+import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { EditUserDialogComponent } from '../../../../shared/components/edit-user-dialog/edit-user-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -44,7 +47,7 @@ export class UserManagementComponent implements OnInit {
     'actions',
   ];
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -80,9 +83,53 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  addUser(): void {}
+  addUser(): void {
+    const dialogRef = this.dialog.open(AddUserDialogComponent, {
+      width: '400px',
+    });
 
-  editUser(id: string): void {}
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.createUser(result);
+      }
+    });
+  }
+
+  createUser(userData: {
+    username: string;
+    email: string;
+    password: string;
+    role: string;
+  }): void {
+    this.adminService.createUser(userData).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.fetchUsers();
+      },
+      error: (err) => {
+        console.error('Error creating user', err);
+      },
+    });
+  }
+
+  editUser(user: User): void {
+    const dialogRef = this.dialog.open(EditUserDialogComponent, {
+      width: '500px',
+      data: { user, isAdmin: true },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.adminService.updateUser(user._id, result).subscribe({
+          next: (response) => {
+            this.fetchUsers();
+            console.log('User updated', response);
+          },
+          error: (err) => console.error('Error updating user', err),
+        });
+      }
+    });
+  }
 
   deleteUser({ _id: id, username }: User): void {
     const confirmation = window.confirm(
@@ -91,7 +138,8 @@ export class UserManagementComponent implements OnInit {
 
     if (confirmation) {
       this.adminService.deleteUser(id).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log(response);
           this.fetchUsers();
         },
         error: (err) => {

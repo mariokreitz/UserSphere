@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { UserService } from '../../core/services/user.service';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,11 +24,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -39,9 +35,17 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
 
-      this.userService.login(email.toLowerCase(), password).subscribe({
-        next: () => {
-          location.reload();
+      this.authService.login(email.toLowerCase(), password).subscribe({
+        next: (response) => {
+          if (response.status === 400) {
+            console.error('Login failed:', response.error);
+          } else if (response.status === 429) {
+            console.error('Login failed:', response.error);
+          } else if (response.status === 500) {
+            console.error('Login failed:', response.error);
+          } else {
+            location.reload();
+          }
         },
         error: (error) => {
           console.error('Login failed:', error);

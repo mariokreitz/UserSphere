@@ -8,13 +8,12 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class AuthService {
   private apiUrl = environment.apiUrl;
   private isAuthenticated = false;
   private userRole: string | null = null;
   private userSubject: BehaviorSubject<User | null> =
     new BehaviorSubject<User | null>(null);
-  public user$: Observable<User | null> = this.userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -44,10 +43,11 @@ export class UserService {
     return this.http
       .post(`${this.apiUrl}/user/logout`, { withCredentials: true })
       .pipe(
-        map(() => {
+        map((response: any) => {
           this.isAuthenticated = false;
           this.userRole = null;
           this.userSubject.next(null);
+          return response;
         })
       );
   }
@@ -58,6 +58,18 @@ export class UserService {
       email,
       password,
     });
+  }
+
+  getCsrfToken(): Observable<any> {
+    return this.http.get(`${this.apiUrl}`, { withCredentials: true }).pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Error fetching CSRF token', error);
+        return of(null);
+      })
+    );
   }
 
   checkSession(): Observable<boolean> {
@@ -75,21 +87,6 @@ export class UserService {
           this.isAuthenticated = false;
           this.userRole = null;
           return of(false);
-        })
-      );
-  }
-
-  fetchUserProfile(): Observable<User | null> {
-    return this.http
-      .get(`${this.apiUrl}/user/profile`, { withCredentials: true })
-      .pipe(
-        map((userData: any) => {
-          this.userSubject.next(userData);
-          return userData;
-        }),
-        catchError((error) => {
-          this.userSubject.next(null);
-          return of(null);
         })
       );
   }
