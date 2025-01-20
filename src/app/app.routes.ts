@@ -13,9 +13,19 @@ import { DashboardComponent } from './features/admin-dashboard/components/dashbo
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'login', component: LoginComponent },
+  {
+    path: '',
+    title: 'UserSphere',
+    component: HomeComponent,
+    children: [
+      {
+        path: 'register',
+        title: 'UserSphere Register',
+        component: RegisterComponent,
+      },
+      { path: 'login', title: 'UserSphere Login', component: LoginComponent },
+    ],
+  },
   {
     path: 'admin',
     component: AdminDashboardComponent,
@@ -28,17 +38,17 @@ export const routes: Routes = [
       },
       {
         path: 'management',
-        title: 'UserManagementComponent',
+        title: 'User Management',
         component: UserManagementComponent,
       },
       {
         path: 'profile',
-        title: 'ProfileOverviewComponent',
+        title: 'Profile Overview',
         component: ProfileOverviewComponent,
       },
       {
         path: 'audit',
-        title: 'AuditLogsComponent',
+        title: 'Audit Logs',
         component: AuditLogsComponent,
       },
     ],
@@ -50,10 +60,10 @@ export const routes: Routes = [
     children: [
       {
         path: 'profile',
-        title: 'ProfileOverviewComponent',
+        title: 'Profile Overview',
         component: ProfileOverviewComponent,
       },
     ],
   },
-  { path: '**', component: NotFoundComponent },
+  { path: '**', title: 'Not Found', component: NotFoundComponent },
 ];

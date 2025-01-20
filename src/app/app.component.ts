@@ -16,23 +16,20 @@ export class AppComponent implements OnInit {
       next: (response) => {
         console.log(response);
       },
-      error: (err: unknown) => {
+      error: (err) => {
         console.error('Failed to retrieve CSRF token', err);
       },
     });
 
-    this.authService.checkSession().subscribe((isLoggedIn) => {
-      if (isLoggedIn) {
-        const role = this.authService.getUserRole();
-
-        if (role === 'admin') {
-          this.router.navigate(['/admin']);
-        } else if (role === 'user') {
-          this.router.navigate(['/user']);
-        }
-      } else {
-        this.router.navigate(['/login']);
-      }
+    const res = this.authService.checkSession().subscribe({
+      next: (loggedIn) => {
+        const userRole = this.authService.getUserRole();
+        const route = loggedIn && userRole ? `/${userRole}` : '';
+        this.router.navigate([route]);
+      },
+      error: (err) => {
+        console.error('Failed to check session', err);
+      },
     });
   }
 }
