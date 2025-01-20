@@ -20,7 +20,7 @@
           </button>
         </div>
         <div class="profile-info">
-          <h1 class="user-full-name">{{ user.firstName }} {{ user.lastName }}</h1>
+          <!-- <h1 class="user-full-name">{{ user.firstName }} {{ user.lastName }}</h1> -->
           <h2 class="user-name" *ngIf="user">{{ user.username }}</h2>
           <div class="icon-label">
             <mat-icon *ngIf="user.role === 'admin'" class="admin">security</mat-icon>
