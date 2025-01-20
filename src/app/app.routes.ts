@@ -26,7 +26,6 @@ export const routes: Routes = [
       { path: 'login', title: 'UserSphere Login', component: LoginComponent },
     ],
   },
-
   {
     path: 'admin',
     component: AdminDashboardComponent,
