@@ -41,7 +41,7 @@ export class AuthService {
 
   logout(): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/user/logout`, { withCredentials: true })
+      .post(`${this.apiUrl}/user/logout`, {}, { withCredentials: true })
       .pipe(
         map((response: any) => {
           this.isAuthenticated = false;

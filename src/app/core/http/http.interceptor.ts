@@ -1,47 +1,33 @@
 import {
-  HttpInterceptorFn,
   HttpRequest,
-  HttpHandlerFn,
   HttpEvent,
+  HttpErrorResponse,
+  HttpHandler,
+  HttpInterceptor,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, Observable, throwError } from 'rxjs';
 
-export const credentialsInterceptorFn: HttpInterceptorFn = (
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
-  const modifiedRequest = req.clone({
-    withCredentials: true,
-  });
-  return next(modifiedRequest);
-};
+@Injectable()
+export class HttpInterceptorService implements HttpInterceptor {
+  constructor(private router: Router) {}
 
-export const csrfInterceptorFn: HttpInterceptorFn = (
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn
-): Observable<HttpEvent<unknown>> => {
-  if (req.method === 'GET') {
-    return next(req);
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    const clonedRequest = req.clone({ withCredentials: true });
+
+    return next.handle(clonedRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.router.navigate(['']);
+        } else {
+          console.error('HTTP Error:', error);
+        }
+        return throwError(() => error);
+      })
+    );
   }
-
-  const csrfToken = getCsrfTokenFromCookie();
-
-  const modifiedRequest = req.clone({
-    headers: req.headers.set('X-CSRF-TOKEN', csrfToken),
-  });
-
-  return next(modifiedRequest);
-};
-
-const getCsrfTokenFromCookie = (): string => {
-  const name = 'csrfToken';
-  const match = document.cookie
-    .split(';')
-    .map((cookie) => cookie.trim())
-    .find((cookie) => cookie.startsWith(`${name}=`));
-
-  if (match) {
-    return decodeURIComponent(match.split('=')[1]);
-  }
-  return '';
-};
+}
