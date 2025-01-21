@@ -1,20 +1,27 @@
 .sidebar-logo {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 0 20px;
 
   img {
-    max-width: 100%;
-    height: auto;
+    height: 55px;
   }
 }
 
 mat-list-item {
   cursor: pointer;
-  display: flex;
-  align-items: center;
   padding: 15px 20px;
   transition: background-color 0.2s ease;
+  border-radius: 0 !important;
+
+  &.active {
+    background-color: #f2f2fd;
+    border-radius: 0;
+    span,
+    mat-icon {
+      color: #636ae8;
+    }
+  }
 
   &:hover {
     background-color: #f2f2fd;
@@ -24,9 +31,12 @@ mat-list-item {
       color: #636ae8;
     }
   }
+  div {
+    display: flex;
+    gap: 16px;
+  }
 
   mat-icon {
-    margin-right: 16px;
     color: #565e6c;
   }
 

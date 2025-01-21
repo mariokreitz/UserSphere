@@ -49,7 +49,7 @@ export class SidebarComponent {
         hidden: !this.isAdmin,
       },
       { label: 'User Profile', link: './profile', icon: 'person' },
-      { label: 'Settings', link: '/settings', icon: 'settings' },
+      { label: 'Settings', link: './settings', icon: 'settings' },
     ].filter((item) => !item.hidden);
 
     return items;
