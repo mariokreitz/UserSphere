@@ -1,0 +1,205 @@
+:host {
+    display: block;
+    width: 100%;
+  }
+
+  .page-wrapper {
+    max-width: 1920px;
+    margin: 0 auto;
+    position: relative;
+    width: 100%;
+  }
+
+  .hero-section .logo {
+  position: absolute;
+  top: 16px;
+  left: 32px;
+
+  img {
+    height: 60px;
+    width: auto;
+  }
+}
+  
+  .hero-section {
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+    padding: 64px 32px;
+    margin-bottom: 48px;
+    position: relative;
+    color: white;
+  }
+  
+  .hero-section .hero-buttons {
+    position: absolute;
+    top: 16px;
+    right: 32px;
+    display: flex;
+    gap: 16px;
+  }
+  
+  .hero-section .custom-button {
+    border: 2px solid white;
+    color: white;
+    padding: 0 16px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: transparent;
+  }
+  
+  .hero-section .custom-button:hover {
+    background-color: white;
+    color: #1976d2;
+  }
+  
+  .hero-section .custom-button.filled {
+    background-color: white;
+    color: #1976d2;
+    border-color: white;
+  }
+  
+  .hero-section .custom-button.filled:hover {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+  }
+  
+  .hero-section .hero-content {
+    max-width: 1024px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .hero-section .hero-content h1 {
+    font-size: 48px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  
+  .hero-section .hero-content p {
+    font-size: 18px;
+    opacity: 0.9;
+    max-width: 576px;
+    margin: 0 auto 32px;
+  }
+  
+  .quick-actions {
+    max-width: 1024px;
+    margin: 0 auto 48px;
+    padding: 0 32px;
+  }
+  
+  .quick-actions .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .quick-actions .action-card {
+    cursor: pointer;
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .quick-actions .action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .quick-actions .action-card mat-card-content {
+    padding: 24px;
+    text-align: left;
+  }
+  
+  .quick-actions .action-card mat-card-content .action-icon {
+    color: #1976d2;
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+    margin-bottom: 16px;
+  }
+  
+  .quick-actions .action-card mat-card-content h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: rgba(0, 0, 0, 0.87);
+    display: block;
+  }
+  
+  .quick-actions .action-card mat-card-content p {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+  
+  .statistics-section {
+    margin: 0 32px 48px;
+  }
+  
+  .statistics-section mat-card {
+    background-color: #e3f2fd;
+    border-radius: 24px;
+  }
+  
+  .statistics-section mat-card mat-card-content {
+    padding: 48px;
+  }
+  
+  .statistics-section .stat-content {
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .statistics-section .stat-content h2 {
+    font-size: 40px;
+    color: #1976d2;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .statistics-section .stat-content h3 {
+    font-size: 20px;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  
+  .statistics-section .stat-content p {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .statistics-section .stat-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 32px;
+  }
+  
+  .statistics-section .stat-indicators .stat-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #bbdefb;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .statistics-section .stat-indicators .stat-indicator.active {
+    background-color: #1976d2;
+  }
+  
+  @media (max-width: 768px) {
+    .quick-actions .actions-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, 1fr);
+    }
+  
+    .hero-section .hero-content h1 {
+      font-size: 32px;
+    }
+  }
