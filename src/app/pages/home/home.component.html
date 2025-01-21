@@ -1,2 +1,73 @@
-<p>home works!</p>
-<router-outlet></router-outlet>
+<div class="page-wrapper">
+    <div class="hero-section">
+        <div class="logo">
+        <img src="assets/usersphere-logo-white.svg" alt="User Sphere Logo" />
+      </div>
+      <div class="hero-buttons">
+        <button mat-button class="custom-button">Login</button>
+        <button mat-button class="custom-button filled">Register</button>
+      </div>
+      
+      <div class="hero-content">
+        <h1>Welcome User Sphere</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent quis justo ut turpis aliquet luctus. Nulla facilisi. Sed dictum metus eu nunc.</p>
+        <button mat-button class="custom-button">Learn More</button>
+      </div>
+    </div>
+  
+    <section class="quick-actions">
+      <div class="actions-grid">
+        <mat-card class="action-card">
+          <mat-card-content>
+            <mat-icon class="action-icon">people</mat-icon>
+            <h3>Manage Contacts</h3>
+            <p>View and manage your customer contacts</p>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card class="action-card">
+          <mat-card-content>
+            <mat-icon class="action-icon">assignment</mat-icon>
+            <h3>Tasks</h3>
+            <p>Track your ongoing tasks and projects</p>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card class="action-card">
+          <mat-card-content>
+            <mat-icon class="action-icon">bar_chart</mat-icon>
+            <h3>Analytics</h3>
+            <p>View your business performance metrics</p>
+          </mat-card-content>
+        </mat-card>
+  
+        <mat-card class="action-card">
+          <mat-card-content>
+            <mat-icon class="action-icon">calendar_today</mat-icon>
+            <h3>Calendar</h3>
+            <p>Manage appointments and schedules</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </section>
+  
+    <section class="statistics-section">
+      <mat-card>
+        <mat-card-content>
+          <div class="stat-content">
+            <h2>{{statistics[currentStatIndex].value}}</h2>
+            <h3>{{statistics[currentStatIndex].label}}</h3>
+            <p>{{statistics[currentStatIndex].description}}</p>
+          </div>
+          <div class="stat-indicators">
+            <button 
+              *ngFor="let stat of statistics; let i = index"
+              class="stat-indicator"
+              [class.active]="i === currentStatIndex"
+              (click)="setCurrentStat(i)">
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  </div>
