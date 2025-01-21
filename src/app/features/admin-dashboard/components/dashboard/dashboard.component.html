@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="chart-card">
+    <app-user-verified-chart [userData]="userData"></app-user-verified-chart>
+  </div>
+
+  <div class="chart-card">
+    <app-user-new-chart [userData]="userData"></app-user-new-chart>
+  </div>
+</div>
