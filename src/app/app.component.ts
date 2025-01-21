@@ -6,29 +6,37 @@ import { AuthService } from './core/services/auth.service';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authService.getCsrfToken().subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (err) => {
-        console.error('Failed to retrieve CSRF token', err);
-      },
-    });
-
     this.authService.checkSession().subscribe({
       next: (loggedIn) => {
-        const userRole = this.authService.getUserRole();
-        const route = loggedIn && userRole ? `/${userRole}` : ''; // entweder '' für home oder einfach '/login' für login =)
-        this.router.navigate([route]);
+        if (loggedIn) {
+          this.authService.getCurrentUser().subscribe({
+            next: (user) => {
+              if (user) {
+                const userRole = this.authService.getUserRole();
+                const route = userRole ? `/${userRole}` : '';
+                this.router.navigate([route]);
+              } else {
+                this.router.navigate(['/login']);
+              }
+            },
+            error: (err) => {
+              console.error('Error loading current user:', err);
+              this.router.navigate(['/login']);
+            },
+          });
+        } else {
+          this.router.navigate(['/login']);
+        }
       },
       error: (err) => {
         console.error('Failed to check session', err);
+        this.router.navigate(['/login']);
       },
     });
   }

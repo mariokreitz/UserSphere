@@ -3,6 +3,7 @@ import { Observable, map, catchError, of } from 'rxjs';
 import { User } from '../../core/models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { UserStateService } from './user-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,31 +11,35 @@ import { environment } from '../../../environments/environment';
 export class UserService {
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private userStateService: UserStateService
+  ) {}
 
   getUser(): Observable<User | null> {
-    return this.http
-      .get(`${this.apiUrl}/user/profile`, { withCredentials: true })
-      .pipe(
-        map((userData: any) => {
-          return userData;
-        }),
-        catchError((error) => {
-          return of(null);
-        })
-      );
+    return this.userStateService.user$;
   }
 
-  updateUser(userData: User): Observable<any> {
+  setUser(user: User | null): void {
+    this.userStateService.setUser(user);
+  }
+
+  get currentUser(): User | null {
+    return this.userStateService.currentUser;
+  }
+
+  updateUser(userData: User): Observable<User | null> {
     return this.http
-      .put(`${this.apiUrl}/user/profile/update`, userData, {
+      .put<User>(`${this.apiUrl}/user/profile/update`, userData, {
         withCredentials: true,
       })
       .pipe(
-        map((userData: any) => {
-          return userData;
+        map((updatedUser: User) => {
+          this.userStateService.setUser(updatedUser);
+          return updatedUser;
         }),
         catchError((error) => {
+          console.error('Update user error:', error);
           return of(null);
         })
       );
@@ -42,16 +47,18 @@ export class UserService {
 
   updateProfilePicture(profilePictureURL: string): Observable<User | null> {
     return this.http
-      .put(
+      .put<User>(
         `${this.apiUrl}/user/profile/update/picture`,
         { profilePictureURL },
         { withCredentials: true }
       )
       .pipe(
-        map((userData: any) => {
-          return userData;
+        map((updatedUser: User) => {
+          this.userStateService.setUser(updatedUser);
+          return updatedUser;
         }),
         catchError((error) => {
+          console.error('Update profile picture error:', error);
           return of(null);
         })
       );

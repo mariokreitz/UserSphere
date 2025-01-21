@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../../core/models/user.model';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from '../../../../shared/components/edit-user-dialog/edit-user-dialog.component';
+import { UserService } from '../../../../shared/services/user.service';
 
 @Component({
   selector: 'app-user-management',
@@ -47,7 +48,11 @@ export class UserManagementComponent implements OnInit {
     'actions',
   ];
 
-  constructor(private adminService: AdminService, private dialog: MatDialog) {}
+  constructor(
+    private adminService: AdminService,
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -123,6 +128,13 @@ export class UserManagementComponent implements OnInit {
         this.adminService.updateUser(user._id, result).subscribe({
           next: (response) => {
             this.fetchUsers();
+
+            const currentUser = this.userService.currentUser;
+            if (currentUser && currentUser._id === user._id) {
+              const updatedUser = { ...currentUser, ...result };
+              this.userService.setUser(updatedUser);
+            }
+
             console.log('User updated', response);
           },
           error: (err) => console.error('Error updating user', err),

@@ -22,15 +22,14 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userService.getUser().subscribe((userData) => {
-      this.user = userData;
+    this.userService.getUser().subscribe((user) => {
+      this.user = user;
     });
   }
 
   logout() {
     this.authService.logout().subscribe({
       next: (response) => {
-        console.log(response);
         this.router.navigate(['']);
       },
       error: (error) => {
