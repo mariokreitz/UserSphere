@@ -1,64 +1,74 @@
+::ng-deep .mat-mdc-form-field {
+  .mat-mdc-form-field-required-marker {
+    cursor: text !important;  
+  }
+}
+
 .register-card {
   width: 100%;
   max-width: 400px;
-  margin: 50px auto;
   padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
 }
 
-.register-card mat-card-header {
+mat-card-header {
   text-align: center;
-  padding-bottom: 10px;
+  color: #333;
+  display: block !important;
+  margin-bottom: 32px;
+  margin-top: -12px;
+  
+  .mat-mdc-card-header-text {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mat-mdc-card-title {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
 }
 
-.register-card mat-card-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.register-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+mat-card-subtitle {
+  font-size: 14px;
+  color: #555;
 }
 
 .full-width {
   width: 100%;
 }
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
 mat-form-field {
-  margin-bottom: 20px;
-}
-
-mat-form-field .mat-form-field-wrapper {
-  font-size: 14px;
-}
-
-button {
-  width: 100%;
+  margin-bottom: 16px;
 }
 
 .login-link {
   text-align: center;
-  margin-top: 20px;
-}
-
-.login-link p {
+  margin-top: 24px;
+  margin-bottom: 8px;
   font-size: 14px;
+  color: #555;
+
+  a {
+    color: #1976d2;
+    text-decoration: none;
+    display: inline-block;  
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
 }
 
-.login-link a {
-  color: #1976d2;
-  font-weight: 500;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
+.error-message {
+  display: flex;
+  align-items: center;
+  color: #f44336;
+  margin-bottom: 16px;
+  
+  mat-icon {
+    margin-right: 8px;
+  }
 }
