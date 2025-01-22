@@ -5,11 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [
     RouterModule,
     CommonModule,
@@ -17,12 +20,18 @@ import { AuthService } from '../../core/services/auth.service';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   registerForm!: FormGroup;
+  hidePassword = true;
+  hideConfirmPassword = true;
+  loading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -67,13 +76,18 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.loading = true;
+      this.errorMessage = '';
       const { username, email, password } = this.registerForm.value;
 
       this.authService.register(username, email, password).subscribe({
         next: () => {
+          this.loading = false;
           this.router.navigate(['/login']);
         },
         error: (error) => {
+          this.loading = false;
+          this.errorMessage = error.message || 'Registration failed. Please try again.';
           console.error('Registration failed', error);
         },
       });
