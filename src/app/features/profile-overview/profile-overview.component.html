@@ -27,7 +27,7 @@
               <mat-icon *ngIf="user.role === 'user'" class="user">person</mat-icon>
               <span class="label">{{ user.role | titlecase }}</span>
             </div>
-            <button mat-raised-button color="primary" class="edit-profile-btn" (click)="editProfile()">
+            <button mat-raised-button color="primary" (click)="editProfile()">
               <mat-icon>edit</mat-icon>
               Edit Profile
             </button>
