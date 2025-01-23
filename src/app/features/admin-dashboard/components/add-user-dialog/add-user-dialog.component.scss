@@ -10,8 +10,8 @@
 
 .add-user-card {
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
+  max-width: 1000px;  
+  padding: 24px 12px; 
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   background: white;
@@ -40,16 +40,19 @@ mat-card-subtitle {
   color: #555;
 }
 
-.full-width {
+mat-form-field {
   width: 100%;
-  margin-bottom: 16px;
+  max-width: 400px; 
+  display: block;
+  margin: 0 auto 24px;  
 }
 
 .error-message {
   display: flex;
   align-items: center;
   color: #f44336;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
+  max-width: 400px;
   
   mat-icon {
     margin-right: 8px;
@@ -60,7 +63,8 @@ mat-card-subtitle {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 24px;
+  margin: 24px auto 0;
+  max-width: 400px;
 
   button {
     flex: 1;

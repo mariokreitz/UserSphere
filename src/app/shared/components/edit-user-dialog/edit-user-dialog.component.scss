@@ -10,8 +10,8 @@
 
 .edit-user-card {
   width: 100%;
-  max-width: 1000px;  
-  padding: 32px 64px; 
+  max-width: 1000px;
+  padding: 24px 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   background: white;
@@ -42,9 +42,9 @@ mat-card-subtitle {
 
 mat-form-field {
   width: 100%;
-  max-width: 400px;  
+  max-width: 400px;
   display: block;
-  margin: 0 auto 24px;  
+  margin: 0 auto 24px;
 }
 
 .error-message {
