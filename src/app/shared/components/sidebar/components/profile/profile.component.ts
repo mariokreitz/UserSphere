@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
-import { User } from '../../../core/models/user.model';
-import { UserService } from '../../services/user.service';
+import { User } from '../../../../../core/models/user.model';
+import { UserService } from '../../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
