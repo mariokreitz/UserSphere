@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -8,13 +7,18 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-user-dialog',
+  standalone: true,
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -23,6 +27,9 @@ import { MatButtonModule } from '@angular/material/button';
     MatCheckboxModule,
     ReactiveFormsModule,
     MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
   ],
   templateUrl: './edit-user-dialog.component.html',
   styleUrl: './edit-user-dialog.component.scss',
@@ -31,6 +38,9 @@ export class EditUserDialogComponent implements OnInit {
   editUserForm!: FormGroup;
   roles: string[] = ['admin', 'user'];
   isAdmin = false;
+  hidePassword = true;
+  loading = false;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -54,6 +64,7 @@ export class EditUserDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.editUserForm.valid) {
+      this.loading = true;
       this.dialogRef.close(this.editUserForm.value);
     }
   }
