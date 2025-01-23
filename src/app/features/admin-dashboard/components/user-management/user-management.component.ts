@@ -17,6 +17,7 @@ import { AdminService } from '../../services/admin.service';
 import { UserService } from '../../../../shared/services/user.service';
 import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { EditUserDialogComponent } from '../../../../shared/components/edit-user-dialog/edit-user-dialog.component';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-user-management',
@@ -32,16 +33,16 @@ import { EditUserDialogComponent } from '../../../../shared/components/edit-user
     MatIconModule,
     MatSelectModule,
     MatChipsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './user-management.component.html',
-  styleUrl: './user-management.component.scss'
+  styleUrl: './user-management.component.scss',
 })
 export class UserManagementComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   filters = { search: '', role: '' };
-  
+
   displayedColumns: Array<keyof User | 'actions'> = [
     'username',
     'email',
@@ -51,10 +52,11 @@ export class UserManagementComponent implements OnInit {
     'isVerified',
     'createdAt',
     'updatedAt',
-    'actions'
+    'actions',
   ];
 
   constructor(
+    private snackbarService: SnackbarService,
     private adminService: AdminService,
     private userService: UserService,
     private dialog: MatDialog
@@ -70,7 +72,7 @@ export class UserManagementComponent implements OnInit {
         this.users = data;
         this.filteredUsers = data;
       },
-      error: (err) => console.error('Error fetching users', err)
+      error: (err) => this.snackbarService.showError(err),
     });
   }
 
@@ -79,14 +81,15 @@ export class UserManagementComponent implements OnInit {
     const roleFilter = this.filters.role.toLowerCase();
 
     this.filteredUsers = this.users.filter((user) => {
-      const matchesSearch = search === '' ||
+      const matchesSearch =
+        search === '' ||
         user.username.toLowerCase().includes(search) ||
         user.email.toLowerCase().includes(search) ||
         user.firstName.toLowerCase().includes(search) ||
         user.lastName.toLowerCase().includes(search);
 
-      const matchesRole = roleFilter === '' || 
-        user.role.toLowerCase() === roleFilter;
+      const matchesRole =
+        roleFilter === '' || user.role.toLowerCase() === roleFilter;
 
       return matchesSearch && matchesRole;
     });
@@ -94,14 +97,19 @@ export class UserManagementComponent implements OnInit {
 
   addUser(): void {
     const dialogRef = this.dialog.open(AddUserDialogComponent, {
-      width: '500px'
+      width: '500px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.adminService.createUser(result).subscribe({
-          next: () => this.fetchUsers(),
-          error: (err) => console.error('Error creating user', err)
+          next: (response) => {
+            this.fetchUsers();
+            this.snackbarService.showSuccess(response.message);
+          },
+          error: (err) => {
+            this.snackbarService.showError(err.error.message);
+          },
         });
       }
     });
@@ -110,19 +118,23 @@ export class UserManagementComponent implements OnInit {
   editUser(user: User): void {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       width: '500px',
-      data: { user, isAdmin: true }
+      data: { user, isAdmin: true },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.adminService.updateUser(user._id, result).subscribe({
-          next: () => {
+          next: (response) => {
+            this.snackbarService.showSuccess(response.message);
             this.fetchUsers();
             if (this.userService.currentUser?._id === user._id) {
-              this.userService.setUser({ ...this.userService.currentUser, ...result });
+              this.userService.setUser({
+                ...this.userService.currentUser,
+                ...result,
+              });
             }
           },
-          error: (err) => console.error('Error updating user', err)
+          error: (err: Error) => this.snackbarService.showError(err.message),
         });
       }
     });
@@ -135,8 +147,12 @@ export class UserManagementComponent implements OnInit {
 
     if (confirmation) {
       this.adminService.deleteUser(id).subscribe({
-        next: () => this.fetchUsers(),
-        error: (err) => console.error('Error deleting user', err)
+        next: (response) => {
+          this.fetchUsers();
+          this.snackbarService.showSuccess(response.message);
+        },
+
+        error: (err: Error) => this.snackbarService.showError(err.message),
       });
     }
   }
