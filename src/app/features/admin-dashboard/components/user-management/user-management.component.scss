@@ -1,7 +1,7 @@
 .background-container {
   padding: 24px;
   min-height: calc(100vh - 48px);
-  background-color: #1B2430;
+  background-color: #1b2430;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -14,13 +14,20 @@
   border-radius: 12px;
   background-color: #ffffff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  &:has(mat-spinner) {
+    align-items: center;
+  }
+  mat-spinner {
+    margin: 32px;
+  }
 }
 
 mat-card-header {
   text-align: center;
   display: block !important;
   margin-bottom: 32px;
-  
+
   .mat-mdc-card-header-text {
     margin: 0 auto;
     text-align: center;
@@ -30,7 +37,7 @@ mat-card-header {
     font-size: 32px;
     margin-bottom: 8px;
     font-weight: 500;
-    color: #4154F1;
+    color: #4154f1;
   }
 
   .mat-mdc-card-subtitle {
@@ -73,7 +80,7 @@ mat-card-header {
   }
 
   th {
-    background-color: #4154F1;
+    background-color: #4154f1;
     color: white;
     font-weight: 500;
     padding: 16px;
@@ -127,7 +134,7 @@ mat-card-header {
   bottom: 32px;
   right: 32px;
   transition: transform 0.2s ease;
-  
+
   &:hover {
     transform: scale(1.1);
   }

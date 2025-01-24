@@ -77,3 +77,11 @@ app-sidebar {
   background-color: #f44336;
   color: white;
 }
+
+.global-loader {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}

@@ -1,3 +1,7 @@
+<!-- src\styles.scss -->
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class="global-loader">
+</mat-progress-bar>
+
 <div class="background-container">
   <mat-card class="management-card">
     <mat-card-header>
@@ -5,13 +9,18 @@
       <mat-card-subtitle>Manage system users</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content>
+    @if(users.length > 0){<mat-card-content>
       <!-- Search and Filter Section -->
       <div class="search-section">
         <mat-form-field appearance="outline">
           <mat-label>Search</mat-label>
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput [(ngModel)]="filters.search" name="search" placeholder="Search users">
+          <input
+            matInput
+            [(ngModel)]="filters.search"
+            name="search"
+            placeholder="Search users"
+          />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -24,7 +33,12 @@
           </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="filter-button" (click)="filterUser()">
+        <button
+          mat-raised-button
+          color="primary"
+          class="filter-button"
+          (click)="filterUser()"
+        >
           <mat-icon>filter_list</mat-icon>
           Apply Filters
         </button>
@@ -36,33 +50,36 @@
           <!-- Username Column -->
           <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef>Username</th>
-            <td mat-cell *matCellDef="let user">{{user.username}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.username }}</td>
           </ng-container>
 
           <!-- Email Column -->
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let user">{{user.email}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.email }}</td>
           </ng-container>
 
           <!-- First Name Column -->
           <ng-container matColumnDef="firstName">
             <th mat-header-cell *matHeaderCellDef>First Name</th>
-            <td mat-cell *matCellDef="let user">{{user.firstName}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.firstName }}</td>
           </ng-container>
 
           <!-- Last Name Column -->
           <ng-container matColumnDef="lastName">
             <th mat-header-cell *matHeaderCellDef>Last Name</th>
-            <td mat-cell *matCellDef="let user">{{user.lastName}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.lastName }}</td>
           </ng-container>
 
           <!-- Role Column -->
           <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef>Role</th>
             <td mat-cell *matCellDef="let user">
-              <span class="role-badge" [class.admin-role]="user.role === 'admin'">
-                {{user.role}}
+              <span
+                class="role-badge"
+                [class.admin-role]="user.role === 'admin'"
+              >
+                {{ user.role }}
               </span>
             </td>
           </ng-container>
@@ -71,8 +88,11 @@
           <ng-container matColumnDef="isVerified">
             <th mat-header-cell *matHeaderCellDef>Verified</th>
             <td mat-cell *matCellDef="let user">
-              <mat-icon [class.verified]="user.isVerified" [class.not-verified]="!user.isVerified">
-                {{user.isVerified ? 'check_circle' : 'cancel'}}
+              <mat-icon
+                [class.verified]="user.isVerified"
+                [class.not-verified]="!user.isVerified"
+              >
+                {{ user.isVerified ? "check_circle" : "cancel" }}
               </mat-icon>
             </td>
           </ng-container>
@@ -80,39 +100,54 @@
           <!-- Created At Column -->
           <ng-container matColumnDef="createdAt">
             <th mat-header-cell *matHeaderCellDef>Created At</th>
-            <td mat-cell *matCellDef="let user">{{user.createdAt | date}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.createdAt | date }}</td>
           </ng-container>
 
           <!-- Updated At Column -->
           <ng-container matColumnDef="updatedAt">
             <th mat-header-cell *matHeaderCellDef>Updated At</th>
-            <td mat-cell *matCellDef="let user">{{user.updatedAt | date}}</td>
+            <td mat-cell *matCellDef="let user">{{ user.updatedAt | date }}</td>
           </ng-container>
 
           <!-- Actions Column -->
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>Actions</th>
             <td mat-cell *matCellDef="let user">
-              <button mat-icon-button color="primary" (click)="editUser(user)" matTooltip="Edit User">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="editUser(user)"
+                matTooltip="Edit User"
+              >
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Delete User">
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="deleteUser(user)"
+                matTooltip="Delete User"
+              >
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-
-    
       </div>
     </mat-card-content>
+    }@else {<mat-spinner></mat-spinner>}
   </mat-card>
 
   <!-- Add User FAB -->
-  <button mat-fab class="add-button" color="primary" (click)="addUser()" matTooltip="Add New User">
+  <button
+    mat-fab
+    class="add-button"
+    color="primary"
+    (click)="addUser()"
+    matTooltip="Add New User"
+  >
     <mat-icon>add</mat-icon>
   </button>
 </div>

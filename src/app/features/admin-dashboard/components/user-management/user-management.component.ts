@@ -11,13 +11,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { User } from '../../../../core/models/user.model';
-import { AdminService } from '../../services/admin.service';
-import { UserService } from '../../../../shared/services/user.service';
-import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { EditUserDialogComponent } from '../../../../shared/components/edit-user-dialog/edit-user-dialog.component';
+import { AddUserDialogComponent } from '../add-user-dialog/add-user-dialog.component';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { UserService } from '../../../../shared/services/user.service';
+import { AdminService } from '../../services/admin.service';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-user-management',
@@ -34,11 +35,14 @@ import { SnackbarService } from '../../../../core/services/snackbar.service';
     MatSelectModule,
     MatChipsModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.scss',
 })
 export class UserManagementComponent implements OnInit {
+  isLoading = false;
   users: User[] = [];
   filteredUsers: User[] = [];
   filters = { search: '', role: '' };
@@ -102,12 +106,15 @@ export class UserManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.adminService.createUser(result).subscribe({
           next: (response) => {
             this.fetchUsers();
+            this.isLoading = false;
             this.snackbarService.showSuccess(response.message);
           },
           error: (err) => {
+            this.isLoading = false;
             this.snackbarService.showError(err.error.message);
           },
         });
@@ -123,10 +130,12 @@ export class UserManagementComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.isLoading = true;
         this.adminService.updateUser(user._id, result).subscribe({
           next: (response) => {
-            this.snackbarService.showSuccess(response.message);
             this.fetchUsers();
+            this.isLoading = false;
+            this.snackbarService.showSuccess(response.message);
             if (this.userService.currentUser?._id === user._id) {
               this.userService.setUser({
                 ...this.userService.currentUser,
@@ -134,7 +143,10 @@ export class UserManagementComponent implements OnInit {
               });
             }
           },
-          error: (err: Error) => this.snackbarService.showError(err.message),
+          error: (err: Error) => {
+            this.isLoading = false;
+            this.snackbarService.showError(err.message);
+          },
         });
       }
     });
@@ -146,13 +158,18 @@ export class UserManagementComponent implements OnInit {
     );
 
     if (confirmation) {
+      this.isLoading = true;
       this.adminService.deleteUser(id).subscribe({
         next: (response) => {
           this.fetchUsers();
+          this.isLoading = false;
           this.snackbarService.showSuccess(response.message);
         },
 
-        error: (err: Error) => this.snackbarService.showError(err.message),
+        error: (err) => {
+          this.isLoading = false;
+          this.snackbarService.showError(err.message);
+        },
       });
     }
   }
