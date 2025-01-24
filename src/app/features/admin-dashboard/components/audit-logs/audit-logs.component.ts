@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { Log } from '../../../../core/models/log.model';
 
 @Component({
@@ -23,6 +26,9 @@ import { Log } from '../../../../core/models/log.model';
     MatCardModule,
     MatIconModule,
     MatSelectModule,
+    MatPaginatorModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './audit-logs.component.html',
   styleUrl: './audit-logs.component.scss',
@@ -42,6 +48,14 @@ export class AuditLogsComponent implements OnInit {
     startDate: '',
     endDate: '',
   };
+
+  availableActions: string[] = [
+    'admin_delete_user',
+    'admin_create_user',
+    'admin_update_user',
+    'admin_access_users',
+    'admin_access_audit'
+  ];
 
   constructor(private adminService: AdminService) {}
   displayedColumns: string[] = [
