@@ -28,7 +28,7 @@ export class UserService {
     return this.userStateService.currentUser;
   }
 
-  updateUser(userData: User): Observable<User | null> {
+  updateUser(userData: User): Observable<any> {
     return this.http
       .put<User>(`${this.apiUrl}/user/profile/update`, userData, {
         withCredentials: true,
