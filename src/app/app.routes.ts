@@ -11,6 +11,7 @@ import { ProfileOverviewComponent } from './features/profile-overview/profile-ov
 import { AuditLogsComponent } from './features/admin-dashboard/components/audit-logs/audit-logs.component';
 import { DashboardComponent } from './features/admin-dashboard/components/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
+import { UserSettingsComponent } from './features/user-settings/user-settings.component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,11 @@ export const routes: Routes = [
         title: 'Audit Logs',
         component: AuditLogsComponent,
       },
+      {
+        path: 'settings',
+        title: 'Settings',
+        component: UserSettingsComponent,
+      },
     ],
   },
   {
@@ -62,6 +68,11 @@ export const routes: Routes = [
         path: 'profile',
         title: 'Profile Overview',
         component: ProfileOverviewComponent,
+      },
+      {
+        path: 'settings',
+        title: 'Settings',
+        component: UserSettingsComponent,
       },
     ],
   },
