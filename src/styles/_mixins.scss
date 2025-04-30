@@ -1,9 +1,10 @@
 // styles/_mixins.scss
+@use "sass:map";
 @use "./variables" as vars;
 
 // generisches Media-Query-Mixin
 @mixin media-breakpoint-up($breakpoint) {
-  @media (min-width: map-get(vars.$grid-breakpoints, $breakpoint)) {
+  @media (min-width: map.get(vars.$grid-breakpoints, $breakpoint)) {
     @content;
   }
 }

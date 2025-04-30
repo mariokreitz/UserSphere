@@ -1,4 +1,5 @@
 // styles/_theme.scss
+@use "sass:map";
 @use "./variables" as vars;
 
 $theme-map: (
@@ -7,11 +8,11 @@ $theme-map: (
 );
 
 @function theme($theme-name, $key) {
-  $theme-values: map-get($theme-map, $theme-name);
+  $theme-values: map.get($theme-map, $theme-name);
   @if $theme-values == null {
     @error "Unknown theme “#{$theme-name}”. Available: #{map-keys($theme-map)}.";
   }
-  $value: map-get($theme-values, $key);
+  $value: map.get($theme-values, $key);
   @if $value == null {
     @error "Unknown key “#{$key}” in theme “#{$theme-name}”. Available: #{map-keys($theme-values)}.";
   }
