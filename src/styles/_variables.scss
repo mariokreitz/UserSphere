@@ -1,0 +1,35 @@
+// styles/_variables.scss
+
+// Breakpoints are from tailwindcss
+$grid-breakpoints: (
+  xs: 0,
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+  "2xl": 1536px,
+);
+
+// Colors
+$color-primary: #007bff;
+$color-secondary: #6c757d;
+$color-success: #28a745;
+$color-danger: #dc3545;
+$color-warning: #ffc107;
+$color-info: #17a2b8;
+$color-light: #f8f9fa;
+$color-dark: #343a40;
+
+$theme-light: (
+  bg: $color-light,
+  fg: $color-dark,
+  accent: $color-primary,
+  accent-2: $color-secondary,
+);
+
+$theme-dark: (
+  bg: $color-dark,
+  fg: $color-light,
+  accent: $color-primary,
+  accent-2: $color-secondary,
+);
