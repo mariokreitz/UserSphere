@@ -10,7 +10,7 @@ type Permission =
 
 type Role = 'admin' | 'user';
 
-export interface User {
+export interface UserInterface {
   _id: string;
   username: string;
   email: string;
