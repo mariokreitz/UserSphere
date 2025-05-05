@@ -18,6 +18,7 @@ export class RegisterComponent {
     username: [''],
     email: [''],
     password: [''],
+    confirmPassword: [''],
   });
 
   onSubmit() {
