@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validator } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,9 @@ import { ReactiveFormsModule, FormBuilder, Validator } from '@angular/forms';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  router = inject(Router);
   fb = inject(FormBuilder);
+  authService = inject(AuthService);
 
   form = this.fb.nonNullable.group({
     email: [''],
@@ -16,6 +20,7 @@ export class LoginComponent {
   });
 
   onSubmit() {
-    console.log(this.form.value);
+    const data = this.form.getRawValue();
+    this.authService.login(data);
   }
 }
