@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-signin',
@@ -7,10 +6,4 @@ import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.scss',
 })
-export class SigninComponent {
-  private auth = inject(Auth);
-
-  async signin(email: string, password: string) {
-    await createUserWithEmailAndPassword(this.auth, email, password);
-  }
-}
+export class SigninComponent {}
