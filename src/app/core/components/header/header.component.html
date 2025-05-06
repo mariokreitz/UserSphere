@@ -1,0 +1,71 @@
+<mat-toolbar color="primary" class="landing-header" role="banner">
+  <!-- Logo -->
+  <div class="logo-section">
+    <img src="assets/logo.png" alt="UserSphere Logo" class="logo" />
+  </div>
+
+  <!-- Desktop navigation links -->
+  <nav class="nav-links">
+    <a mat-button routerLink="/features">
+      <mat-icon>star</mat-icon>
+      Features
+    </a>
+    <a mat-button routerLink="/documentation">
+      <mat-icon>description</mat-icon>
+      Docs
+    </a>
+    <a mat-button routerLink="/about">
+      <mat-icon>info</mat-icon>
+      About
+    </a>
+  </nav>
+
+  <span class="spacer"></span>
+
+  <!-- Desktop actions -->
+  <div class="action-buttons">
+    <button mat-button routerLink="/signin">
+      <mat-icon>login</mat-icon>
+      Sign In
+    </button>
+    <button mat-raised-button color="accent" routerLink="/signup">
+      <mat-icon>person_add</mat-icon>
+      Get Started
+    </button>
+  </div>
+
+  <!-- Mobile menu toggle -->
+  <button
+    mat-icon-button
+    class="mobile-menu-button"
+    [matMenuTriggerFor]="mobileMenu"
+    aria-label="Menu"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <!-- Mobile menu definition -->
+  <mat-menu #mobileMenu="matMenu" class="mobile-menu-panel">
+    <button mat-menu-item routerLink="/features">
+      <mat-icon>star</mat-icon>
+      Features
+    </button>
+    <button mat-menu-item routerLink="/documentation">
+      <mat-icon>description</mat-icon>
+      Docs
+    </button>
+    <button mat-menu-item routerLink="/about">
+      <mat-icon>info</mat-icon>
+      About
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item routerLink="/signin">
+      <mat-icon>login</mat-icon>
+      Sign In
+    </button>
+    <button mat-menu-item routerLink="/signup">
+      <mat-icon>person_add</mat-icon>
+      Get Started
+    </button>
+  </mat-menu>
+</mat-toolbar>
