@@ -1,4 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mobile-menu-panel {
+  width: 260px;
+
+  @include mat.menu-overrides(
+    (
+      container-color: #3f51b5,
+      divider-color: rgba(255, 255, 255, 0.2),
+      item-label-text-color: white,
+      item-icon-color: white,
+      item-hover-state-layer-color: rgba(255, 255, 255, 0.08),
+    )
+  );
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
