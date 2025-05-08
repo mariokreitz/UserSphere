@@ -1,6 +1,7 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { LocalStorageService } from '../../services/localStorage.service';
 
 @Component({
   selector: 'app-theme-switcher',
@@ -9,9 +10,17 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './theme-switcher.component.scss',
 })
 export class ThemeSwitcherComponent {
-  darkMode = signal(false);
+  private localStorageService = inject(LocalStorageService);
 
-  setDarkMode = effect(() => {
-    document.documentElement.classList.toggle('dark', this.darkMode());
+  public darkMode = signal<boolean>(
+    this.localStorageService.get('darkMode') === 'true'
+  );
+
+  public setDarkMode = effect(() => {
+    const isDark = this.darkMode();
+
+    this.localStorageService.set('darkMode', isDark.toString());
+
+    document.documentElement.classList.toggle('dark', isDark);
   });
 }
