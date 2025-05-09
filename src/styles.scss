@@ -142,3 +142,17 @@ html {
   @include mat.menu-theme($custom-theme);
   @include mat.divider-theme($custom-theme);
 }
+
+.cta-primary {
+  background-image: linear-gradient(
+    to bottom right,
+    var(--mat-sys-primary),
+    var(--mat-sys-tertiary)
+  ) !important;
+  color: var(--mat-sys-on-secondary) !important;
+}
+
+.cta-tertiary {
+  border-color: var(--mat-sys-secondary) !important;
+  color: var(--mat-sys-secondary) !important;
+}
