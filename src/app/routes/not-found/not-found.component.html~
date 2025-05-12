@@ -1,0 +1,9 @@
+<div class="container">
+  <mat-icon >error</mat-icon>
+  <h1>Seite nicht gefunden</h1>
+  <p>Die Seite, die Sie suchen, existiert nicht.</p>
+  <button (click)="goBack()" mat-raised-button>
+    <mat-icon>backspace</mat-icon>
+    Zurück wo ich her kam
+  </button>
+</div>
