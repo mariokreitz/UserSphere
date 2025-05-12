@@ -1,0 +1,26 @@
+:host {
+  margin: auto;
+}
+
+.container {
+  text-align: center;
+  margin-top: 2rem;
+
+  .icon {
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+  }
+
+  a {
+    width: fit-content;
+    margin: 0 auto;
+  }
+}
