@@ -41,3 +41,17 @@ body {
 .flexbox-colum-between {
   @include flexbox($direction: column, $justify: space-between, $align: start)
 }
+
+.app-snackbar {
+  font-size: 1rem;
+}
+
+.snackbar-success * {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+
+.snackbar-error * {
+  background-color: #f44336 !important;
+  color: #fff !important;
+}
