@@ -7,6 +7,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {RegisterForm} from '../../../models/types/registerForm';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {AuthService} from '../../core/services/auth.service';
+import {Router} from '@angular/router';
+import {SnackbarService} from '../../core/services/snackbar.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +31,8 @@ export class LoginComponent {
   protected signupForm: FormGroup<RegisterForm>;
 
   private auth = inject(AuthService);
+  private router = inject(Router);
+  private snackbarService = inject(SnackbarService);
 
   constructor() {
     this.signupForm = new FormGroup({
@@ -63,10 +67,12 @@ export class LoginComponent {
     this.auth.signIn(email!, password!).subscribe({
       next: (res) => {
         this.isLoading.set(false);
+        this.snackbarService.success('Erfolgreich angemeldet');
+        this.router.navigateByUrl('/')
       },
       error: (err) => {
         this.isLoading.set(false);
-        this.signupForm.reset();
+        this.snackbarService.error("Anmeldung fehlgeschlagen");
       }
     })
 
