@@ -33,7 +33,7 @@ export class LoginComponent {
   constructor() {
     this.signupForm = new FormGroup({
       email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
-      password: new FormControl<string | null>(null, [Validators.required, Validators.minLength(6)]),
+      password: new FormControl<string | null>(null, [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/), Validators.minLength(8)]),
     });
 
   }
@@ -61,10 +61,10 @@ export class LoginComponent {
     const {email, password} = this.signupForm.value;
 
     this.auth.signIn(email!, password!).subscribe({
-      next: () => {
+      next: (res) => {
         this.isLoading.set(false);
       },
-      error: () => {
+      error: (err) => {
         this.isLoading.set(false);
         this.signupForm.reset();
       }
