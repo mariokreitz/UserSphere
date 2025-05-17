@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-	<a (click)="navigate('/')" class="logo">
+	<a (click)="navigateToDashboardIfAuthenticated('/')" class="logo">
 		<mat-icon>token</mat-icon>
 		<span>UserSphere</span>
 	</a>
@@ -15,7 +15,7 @@
 		</button>
 
 		<mat-menu #userMenu="matMenu">
-			<button (click)="navigate('/profile')" mat-menu-item>
+			<button (click)="navigate('/profile/' + user()?.uid)" mat-menu-item>
 				<mat-icon>person</mat-icon>
 				<span>Info</span>
 			</button>
