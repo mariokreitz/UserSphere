@@ -33,16 +33,24 @@ body {
   height: 100%;
 }
 
+.w-full {
+  width: 100%;
+}
+
 .container {
   @include container();
 
 }
 
-.flexbox-colum {
+.flexbox-column {
   @include flexbox($direction: column, $justify: flex-start, $align: flex-start)
 }
 
-.flexbox-colum-between {
+.flexbox-center {
+  @include flexbox()
+}
+
+.flexbox-column-between {
   @include flexbox($direction: column, $justify: space-between, $align: start)
 }
 
