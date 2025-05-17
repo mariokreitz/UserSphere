@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { RegisterForm } from '../../../models/types/registerForm';
 import { AuthService } from '../../core/services/auth.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
-import { UserService } from '../../core/services/user.service';
 
 @Component({
     selector: 'app-login',
@@ -32,7 +31,6 @@ export class LoginComponent {
     protected signupForm: FormGroup<RegisterForm>;
 
     private authService = inject(AuthService);
-    private userService = inject(UserService);
     private router = inject(Router);
     private snackbarService = inject(SnackbarService);
 
@@ -77,7 +75,7 @@ export class LoginComponent {
             next: (res) => {
                 this.isLoading.set(false);
                 this.snackbarService.success('Erfolgreich angemeldet');
-                this.router.navigateByUrl('/');
+                this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
                 this.isLoading.set(false);
