@@ -1,5 +1,7 @@
 // src/app/app.component.ts
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterOutlet } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FooterComponent } from './core/components/footer/footer.component';
@@ -13,11 +15,15 @@ import { UserService } from './core/services/user.service';
         RouterOutlet,
         HeaderComponent,
         FooterComponent,
+        MatCardModule,
+        MatProgressSpinnerModule,
     ],
     templateUrl: './app.component.html',
     styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
+    protected isAuthChecked = signal(false);
+
     private userService = inject(UserService);
     private router = inject(Router);
 
@@ -25,8 +31,11 @@ export class AppComponent implements OnInit {
         this.userService.firebaseUser$.subscribe(user => {
             if (user) {
                 this.userService.currentUser.set({
+                    uid: user.uid,
                     email: user.email ?? '',
                     username: user.displayName ?? '',
+                    emailVerified: user.emailVerified,
+                    metadata: user.metadata ?? {},
                 });
             } else {
                 this.userService.currentUser.set(null);
@@ -39,6 +48,7 @@ export class AppComponent implements OnInit {
               if (isAuth && (this.router.url === '/login' || this.router.url === '' || this.router.url === '/')) {
                   this.router.navigate([ '/dashboard' ]);
               }
+              this.isAuthChecked.set(true);
           });
     }
 }
