@@ -1,5 +1,24 @@
-<div class="h-full container flexbox-colum-between">
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
+<div class="h-full container flexbox-colum">
+	@if (isAuthChecked()) {
+		<app-header></app-header>
+		<main class="content">
+			<router-outlet></router-outlet>
+		</main>
+		<app-footer></app-footer>
+	} @else {
+		<div class="loading-backdrop">
+			<mat-card appearance="outlined" class="loading-card">
+				<mat-card-content>
+					<mat-progress-spinner
+								color="primary"
+								diameter="60"
+								mode="indeterminate"
+								strokeWidth="5">
+					</mat-progress-spinner>
+					<p>Wird geladen…</p>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	}
+
 </div>
