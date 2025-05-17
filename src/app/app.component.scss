@@ -1,10 +1,5 @@
 @use '../styles/mixins' as mix;
 
-.content {
-  flex: 1;
-  overflow: auto;
-}
-
 .loading-backdrop {
   position: absolute;
   top: 0;
