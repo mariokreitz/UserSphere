@@ -18,8 +18,11 @@ export class UserService {
         this.firebaseUser$.subscribe((fbUser: FirebaseUser | null) => {
             if (fbUser) {
                 this.currentUser.set({
+                    uid: fbUser.uid,
                     email: fbUser.email ?? '',
                     username: fbUser.displayName ?? '',
+                    emailVerified: fbUser.emailVerified,
+                    metadata: fbUser.metadata ?? {},
                 });
             } else {
                 this.currentUser.set(null);
@@ -29,5 +32,9 @@ export class UserService {
 
     public currentUserSync(): UserInterface | null {
         return this.currentUser();
+    }
+
+    public isAuthenticated(): boolean {
+        return this.currentUserSync() !== null;
     }
 }
