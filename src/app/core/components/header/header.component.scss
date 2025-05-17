@@ -1,11 +1,25 @@
-.spacer {
-  flex: 1 1 auto;
+:host {
+  width: 100%;
 }
 
-.logo {
+mat-toolbar {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
 }
