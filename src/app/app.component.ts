@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
         this.userService.isAuthenticated$
           .pipe(take(1))
           .subscribe(isAuth => {
-              if (isAuth && (this.router.url === '' || this.router.url === '/')) {
+              if (isAuth && (this.router.url === '/login' || this.router.url === '' || this.router.url === '/')) {
                   this.router.navigate([ '/dashboard' ]);
               }
           });
