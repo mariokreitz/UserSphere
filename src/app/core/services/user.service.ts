@@ -1,9 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { Auth, user } from '@angular/fire/auth';
+import { UserInterface } from '../../../models/types/UserInterface';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class UserService {
+    public currentUser = signal<UserInterface | null | undefined>(undefined);
 
-  constructor() { }
+    private auth = inject(Auth);
+    
+    public user$ = user(this.auth);
 }
