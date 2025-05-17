@@ -1,19 +1,22 @@
-import {Routes} from '@angular/router';
-import {HomeComponent} from './routes/home/home.component';
-import {NotFoundComponent} from './routes/not-found/not-found.component';
-import {LoginComponent} from './routes/login/login.component';
+import { Routes } from '@angular/router';
+import { HomeComponent } from './routes/home/home.component';
+import { LoginComponent } from './routes/login/login.component';
+import { NotFoundComponent } from './routes/not-found/not-found.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: '**',
-    component: NotFoundComponent
-  }
+    {
+        path: '',
+        component: HomeComponent,
+        title: 'UserSphere - Startseite',
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+        title: 'UserSphere - Login',
+    },
+    {
+        path: '**',
+        component: NotFoundComponent,
+        title: 'UserSphere - 404',
+    },
 ];
