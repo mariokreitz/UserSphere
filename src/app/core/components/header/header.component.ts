@@ -49,10 +49,14 @@ export class HeaderComponent implements OnInit {
 
     }
 
-    navigate(url: string) {
+    navigateToDashboardIfAuthenticated(url: string) {
         if (this.isUserAuthenticated()) this.router.navigateByUrl('/dashboard');
         else this.router.navigateByUrl(url);
 
+    }
+
+    navigate(url: string) {
+        this.router.navigateByUrl(url);
     }
 
     onLogout() {
