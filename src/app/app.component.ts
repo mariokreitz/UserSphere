@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
                     uid: user.uid,
                     email: user.email ?? '',
                     username: user.displayName ?? '',
+                    photoURL: user.photoURL ?? '',
                     emailVerified: user.emailVerified,
                     metadata: user.metadata ?? {},
                 });
