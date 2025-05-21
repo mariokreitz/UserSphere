@@ -78,6 +78,7 @@ export class LoginComponent {
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
+                console.error(err);
                 this.isLoading.set(false);
                 this.setFormError('password', 'invalidPassword', 'Benutzername oder Passwort sind falsch');
             },
@@ -86,11 +87,35 @@ export class LoginComponent {
     }
 
     signInWithGoogle(): void {
-        console.log('Google Sign-In aufgerufen');
+        this.isLoading.set(true);
+        this.authService.signInWithGoogle().subscribe({
+            next: () => {
+                this.isLoading.set(false);
+                this.snackbarService.success('Erfolgreich mit Google angemeldet');
+                this.router.navigateByUrl('/dashboard');
+            },
+            error: (err) => {
+                console.error(err);
+                this.isLoading.set(false);
+                this.snackbarService.error('Fehler beim Anmelden mit Google');
+            },
+        });
     }
 
     signInWithGithub(): void {
-        console.log('GitHub Sign-In aufgerufen');
+        this.isLoading.set(true);
+        this.authService.signInWithGithub().subscribe({
+            next: () => {
+                this.isLoading.set(false);
+                this.snackbarService.success('Erfolgreich mit GitHub angemeldet');
+                this.router.navigateByUrl('/dashboard');
+            },
+            error: (err) => {
+                console.error(err);
+                this.isLoading.set(false);
+                this.snackbarService.error('Fehler beim Anmelden mit GitHub');
+            },
+        });
     }
 
     setFormError(formControlName: string, errorType: string, errorMessage: string) {

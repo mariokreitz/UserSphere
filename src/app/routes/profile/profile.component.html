@@ -1,1 +1,31 @@
-<p>Profile {{ id }}</p>
+<ng-container *ngIf="userData$ | async as user; else loading">
+	<mat-card class="profile-card">
+		<mat-card-header>
+			<div class="avatar-container" mat-card-avatar>
+				<img
+							[src]="user.photoURL || 'https://via.placeholder.com/80?text=Avatar'"
+							alt="Profilbild"
+							class="avatar"
+				/>
+			</div>
+			<mat-card-title>{{ user.username || 'Kein Name vorhanden' }}</mat-card-title>
+			<!--			<mat-card-subtitle>{{ user.role || 'Keine Rolle definiert' }}</mat-card-subtitle>-->
+		</mat-card-header>
+
+		<mat-card-content>
+			<p><strong>Email:</strong> {{ user.email || 'Keine Email vorhanden' }}</p>
+		</mat-card-content>
+
+		<mat-card-actions align="end">
+			<button color="primary" mat-raised-button>Profil bearbeiten</button>
+			<button mat-stroked-button routerLink="/dashboard">Zurück</button>
+		</mat-card-actions>
+	</mat-card>
+</ng-container>
+
+<ng-template #loading>
+	<div class="loading-container">
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+		<p>Benutzerdaten werden geladen...</p>
+	</div>
+</ng-template>

@@ -2,3 +2,43 @@
   width: 100%;
   height: 100%;
 }
+
+.profile-card {
+  max-width: 600px;
+  margin: 2rem auto;
+
+  .avatar-container {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    border-radius: 50%;
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  mat-card-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+
+  mat-card-subtitle {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+
+  mat-progress-spinner {
+    margin-bottom: 1rem;
+  }
+}
