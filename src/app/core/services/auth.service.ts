@@ -22,7 +22,7 @@ export class AuthService {
     private googleProvider = new GoogleAuthProvider();
     private githubProvider = new GithubAuthProvider();
 
-    signIn(email: string, password: string) {
+    public signIn(email: string, password: string) {
         const promise = signInWithEmailAndPassword(this.auth, email, password)
           .then(async (cred) => {
               await this.ensureProfileExists(cred);
@@ -32,7 +32,7 @@ export class AuthService {
         return from(promise);
     }
 
-    signUp(email: string, password: string) {
+    public signUp(email: string, password: string) {
         const promise = createUserWithEmailAndPassword(this.auth, email, password)
           .then(async (cred) => {
               const displayName = email.split('@')[0];
@@ -44,27 +44,25 @@ export class AuthService {
         return from(promise);
     }
 
-    signInWithGoogle() {
+    public signInWithGoogle() {
         const promise = signInWithPopup(this.auth, this.googleProvider)
           .then(async (cred) => {
               await this.ensureProfileExists(cred);
-              return cred;
           });
 
         return from(promise);
     }
 
-    signInWithGithub() {
+    public signInWithGithub() {
         const promise = signInWithPopup(this.auth, this.githubProvider)
           .then(async (cred) => {
               await this.ensureProfileExists(cred);
-              return cred;
           });
 
         return from(promise);
     }
 
-    logout() {
+    public logout() {
         const promise = this.auth.signOut();
         return from(promise);
     }
@@ -85,14 +83,21 @@ export class AuthService {
     }
 
     private async addProfileToStore(cred: UserCredential, displayName: string) {
+        const metadata = {
+            creationTime: cred.user.metadata.creationTime || null,
+            lastSignInTime: cred.user.metadata.lastSignInTime || null,
+        };
+
         const userData: UserInterface = {
             uid: cred.user.uid,
             email: cred.user.email!,
             username: cred.user.displayName || displayName,
             photoURL: cred.user.photoURL || '',
-            metadata: cred.user.metadata,
             emailVerified: cred.user.emailVerified,
+            UserMetadata: metadata,
         };
-        await setDoc(doc(this.firestore, 'users', cred.user.uid), userData);
+        
+        await setDoc(doc(this.firestore, 'users', userData.uid), userData);
     }
+
 }

@@ -30,13 +30,17 @@ export class AppComponent implements OnInit {
     ngOnInit(): void {
         this.userService.firebaseUser$.subscribe(user => {
             if (user) {
+                const metadata = {
+                    creationTime: user.metadata.creationTime || null,
+                    lastSignInTime: user.metadata.lastSignInTime || null,
+                };
                 this.userService.currentUser.set({
                     uid: user.uid,
                     email: user.email ?? '',
                     username: user.displayName ?? '',
                     photoURL: user.photoURL ?? '',
                     emailVerified: user.emailVerified,
-                    metadata: user.metadata ?? {},
+                    UserMetadata: metadata,
                 });
             } else {
                 this.userService.currentUser.set(null);

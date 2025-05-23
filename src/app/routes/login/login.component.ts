@@ -34,11 +34,11 @@ export class LoginComponent {
     private router = inject(Router);
     private snackbarService = inject(SnackbarService);
 
-    get email() {
+    public get email() {
         return this.signupForm.get('email');
     }
 
-    get password() {
+    public get password() {
         return this.signupForm.get('password');
     }
 
@@ -57,11 +57,11 @@ export class LoginComponent {
 
     }
 
-    togglePasswordVisibility() {
+    public togglePasswordVisibility() {
         this.isPasswordVisible.update(value => !value);
     }
 
-    onSubmit(): void {
+    public onSubmit(): void {
         if (this.signupForm.invalid) {
             this.signupForm.markAllAsTouched();
             return;
@@ -86,7 +86,7 @@ export class LoginComponent {
 
     }
 
-    signInWithGoogle(): void {
+    public signInWithGoogle(): void {
         this.isLoading.set(true);
         this.authService.signInWithGoogle().subscribe({
             next: () => {
@@ -102,7 +102,7 @@ export class LoginComponent {
         });
     }
 
-    signInWithGithub(): void {
+    public signInWithGithub(): void {
         this.isLoading.set(true);
         this.authService.signInWithGithub().subscribe({
             next: () => {
@@ -118,7 +118,7 @@ export class LoginComponent {
         });
     }
 
-    setFormError(formControlName: string, errorType: string, errorMessage: string) {
+    private setFormError(formControlName: string, errorType: string, errorMessage: string) {
         const formControl = this.signupForm.get(formControlName);
         if (formControl) {
             formControl.setErrors({ [errorType]: errorMessage });
