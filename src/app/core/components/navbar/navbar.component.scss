@@ -6,14 +6,15 @@
 }
 
 .navbar-container {
+  border-right: 1px solid var(--mat-sys-on-surface-variant);
+  padding-right: 0.5rem;
   display: flex;
   flex-direction: column;
   height: 100%;
   background: var(--mat-sys-surface);
-  border-right: 1px solid rgba(0, 0, 0, 0.12);
   transition: width 0.2s ease-in-out;
   overflow: hidden;
-  width: 56px; // Collapsed width (icons only)
+  width: 64px;
   position: relative;
 
   &.expanded {
@@ -22,16 +23,16 @@
 
   // Mobile styles
   &.mobile {
-    --mat-sidenav-container-width: 0;
     top: 0;
     left: 0;
     bottom: 0;
     z-index: 1000;
-    width: 56px; // Always show icons only on mobile
+  }
 
-    &.expanded {
-      width: 56px; // Keep icons only even when expanded on mobile
-    }
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 }
 
@@ -59,7 +60,6 @@ mat-nav-list {
   overflow-x: hidden;
 
   a {
-    margin: 0 8px;
     border-radius: 4px;
     transition: background-color 0.2s;
     min-width: 40px;
@@ -67,17 +67,17 @@ mat-nav-list {
     overflow: hidden;
 
     &.active {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: var(--mat-sys-primary-fixed-dim);
       font-weight: 500;
     }
 
     &:hover:not(.active) {
-      background-color: rgba(0, 0, 0, 0.04);
+      background-color: var(--mat-sys-primary-container);
     }
 
     mat-icon {
       margin-right: 24px;
-      color: var(--mat-sys-on-surface);
+      color: var(--mat-sys-primary);
     }
 
     span {
@@ -91,18 +91,3 @@ mat-nav-list {
   }
 }
 
-// Responsive adjustments
-@media (max-width: 959px) {
-  .navbar-container {
-    width: 56px; // Always show icons only on mobile
-
-    &.expanded {
-      width: 56px; // Keep icons only on mobile
-    }
-  }
-
-  // Hide tooltips on mobile since we're showing icons only
-  .mat-mdc-tooltip {
-    display: none !important;
-  }
-}
