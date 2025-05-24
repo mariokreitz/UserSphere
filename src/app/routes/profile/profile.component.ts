@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserInterface } from '../../../models/types/UserInterface';
-import { EditProfileDialogComponent } from './edit-profile-dialog.component';
+import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({
     selector: 'app-profile',
@@ -66,5 +66,5 @@ export class ProfileComponent implements OnInit {
             }
         });
     }
-    
+
 }
