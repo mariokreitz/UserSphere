@@ -1,28 +1,169 @@
 @if (userData$ | async; as user) {
-  <mat-card class="profile-card">
-    <mat-card-header>
-      <div class="avatar-container" mat-card-avatar>
-        <img
-          [src]="user.photoURL || 'https://via.placeholder.com/80?text=Avatar'"
-          alt="Profilbild"
-          class="avatar"
-          />
-        </div>
-        <mat-card-title>{{ user.username || 'Kein Name vorhanden' }}</mat-card-title>
-        <!--			<mat-card-subtitle>{{ user.role || 'Keine Rolle definiert' }}</mat-card-subtitle>-->
-      </mat-card-header>
-      <mat-card-content>
-        <p><strong>Email:</strong> {{ user.email || 'Keine Email vorhanden' }}</p>
-      </mat-card-content>
-      <mat-card-actions align="end">
-        <button color="primary" mat-raised-button>Profil bearbeiten</button>
-        <button mat-stroked-button routerLink="/dashboard">Zurück</button>
-      </mat-card-actions>
-    </mat-card>
-  } @else {
-    <div class="loading-container">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-      <p>Benutzerdaten werden geladen...</p>
-    </div>
-  }
+	<!-- Header Section -->
+	<div class="profile-header">
+		<div class="profile-avatar">
+			<img [src]="user.photoURL || 'assets/images/default-avatar.png'" alt="Profilbild" class="avatar">
+		</div>
+		<div class="profile-info">
+			<h1>{{ user.username || 'Kein Name' }}</h1>
+			<div class="user-email">
+				<mat-icon>email</mat-icon>
+				<span>{{ user.email || 'Keine E-Mail' }}</span>
+			</div>
+			<div class="user-status">
+          <span class="status-badge" [class.verified]="user.emailVerified">
+            {{ user.emailVerified ? 'E-Mail verifiziert' : 'E-Mail nicht verifiziert' }}
+          </span>
+			</div>
+		</div>
+		<div class="profile-actions">
+			<button mat-raised-button color="primary" (click)="openEditDialog(user)" class="action-button">
+				<mat-icon>edit</mat-icon>
+				Bearbeiten
+			</button>
+			<button mat-stroked-button class="action-button" routerLink="/dashboard">
+				<mat-icon>arrow_back</mat-icon>
+				Zurück
+			</button>
+		</div>
+	</div>
 
+	<!-- Main Content -->
+	<div class="profile-content">
+		<!-- Left Column -->
+		<div class="profile-details">
+			<mat-card class="details-card">
+				<mat-card-header>
+					<mat-card-title>Kontoinformationen</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div class="detail-item">
+						<mat-icon>person</mat-icon>
+						<div>
+							<div class="detail-label">Benutzername</div>
+							<div class="detail-value">{{ user.username || 'Nicht angegeben' }}</div>
+						</div>
+					</div>
+					<div class="detail-item">
+						<mat-icon>email</mat-icon>
+						<div>
+							<div class="detail-label">E-Mail</div>
+							<div class="detail-value">{{ user.email || 'Nicht angegeben' }}</div>
+						</div>
+					</div>
+					<div class="detail-item">
+						<mat-icon>verified_user</mat-icon>
+						<div>
+							<div class="detail-label">Status</div>
+							<div class="detail-value">
+								{{ user.emailVerified ? 'Verifiziert' : 'Nicht verifiziert' }}
+							</div>
+						</div>
+					</div>
+					<div class="detail-item" *ngIf="user.UserMetadata?.creationTime">
+						<mat-icon>calendar_today</mat-icon>
+						<div>
+							<div class="detail-label">Mitglied seit</div>
+							<div class="detail-value">{{ user.UserMetadata.creationTime | date:'mediumDate' }}</div>
+						</div>
+					</div>
+					<div class="detail-item" *ngIf="user.UserMetadata?.lastSignInTime">
+						<mat-icon>login</mat-icon>
+						<div>
+							<div class="detail-label">Letzte Anmeldung</div>
+							<div class="detail-value">{{ user.UserMetadata.lastSignInTime | date:'medium' }}</div>
+						</div>
+					</div>
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card class="security-card">
+				<mat-card-header>
+					<mat-card-title>Sicherheit</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div class="security-item">
+						<mat-icon>lock</mat-icon>
+						<span>Passwort ändern</span>
+						<button mat-icon-button>
+							<mat-icon>chevron_right</mat-icon>
+						</button>
+					</div>
+					<div class="security-item">
+						<mat-icon>security</mat-icon>
+						<span>Zweifaktor-Authentifizierung</span>
+						<button mat-icon-button>
+							<mat-icon>chevron_right</mat-icon>
+						</button>
+					</div>
+				</mat-card-content>
+			</mat-card>
+		</div>
+
+		<!-- Right Column -->
+		<div class="profile-activity">
+			<mat-card class="activity-card">
+				<mat-card-header>
+					<mat-card-title>Aktivitäten</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<div class="timeline">
+						<div class="timeline-item" *ngIf="user.UserMetadata?.creationTime">
+							<div class="timeline-badge">
+								<mat-icon>account_circle</mat-icon>
+							</div>
+							<div class="timeline-content">
+								<div class="timeline-title">Konto erstellt</div>
+								<div class="timeline-time">{{ user.UserMetadata.creationTime | date:'medium' }}</div>
+							</div>
+						</div>
+						<div class="timeline-item" *ngIf="user.UserMetadata?.lastSignInTime">
+							<div class="timeline-badge">
+								<mat-icon>login</mat-icon>
+							</div>
+							<div class="timeline-content">
+								<div class="timeline-title">Letzte Anmeldung</div>
+								<div class="timeline-time">{{ user.UserMetadata.lastSignInTime | date:'medium' }}</div>
+							</div>
+						</div>
+						<div class="timeline-item" *ngIf="user.emailVerified">
+							<div class="timeline-badge">
+								<mat-icon>verified</mat-icon>
+							</div>
+							<div class="timeline-content">
+								<div class="timeline-title">E-Mail verifiziert</div>
+								<div class="timeline-time">Am {{ user.UserMetadata?.creationTime | date:'mediumDate' }}</div>
+							</div>
+						</div>
+					</div>
+				</mat-card-content>
+			</mat-card>
+
+			<mat-card class="quick-actions">
+				<mat-card-header>
+					<mat-card-title>Schnellzugriff</mat-card-title>
+				</mat-card-header>
+				<mat-card-content>
+					<button mat-stroked-button class="action-button">
+						<mat-icon>settings</mat-icon>
+						Einstellungen
+					</button>
+					<button mat-stroked-button class="action-button">
+						<mat-icon>notifications</mat-icon>
+						Benachrichtigungen
+					</button>
+					<button mat-stroked-button class="action-button">
+						<mat-icon>help</mat-icon>
+						Hilfe & Support
+					</button>
+				</mat-card-content>
+			</mat-card>
+		</div>
+	</div>
+
+} @else {
+	<div class="loading-container">
+		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+		<p>Benutzerdaten werden geladen...</p>
+	</div>
+}
