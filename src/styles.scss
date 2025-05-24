@@ -21,6 +21,7 @@ html {
 
 html, body {
   height: 100%;
+  --mat-sidenav-container-width: 200px;
 }
 
 body {
@@ -67,4 +68,8 @@ body {
 .snackbar-error * {
   background-color: var(--mat-sys-error-container) !important;
   color: var(--mat-sys-error) !important;
+}
+
+.mat-drawer-content {
+  display: flex !important;
 }

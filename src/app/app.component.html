@@ -1,10 +1,16 @@
 <div class="h-full container flexbox-column-between">
 	@if (isAuthChecked()) {
 		<app-header></app-header>
-		<main class="flexbox-center h-full w-full">
+		<mat-drawer-container class="flexbox-center h-full w-full" autosize>
+			@if (isAuthenticated()) {
+				<mat-drawer #drawer opened mode="side">
+					<app-navbar></app-navbar>
+				</mat-drawer>
+			}
 			<router-outlet></router-outlet>
-		</main>
+		</mat-drawer-container>
 		<app-footer></app-footer>
+
 	} @else {
 		<div class="loading-backdrop">
 			<mat-card appearance="outlined" class="loading-card">

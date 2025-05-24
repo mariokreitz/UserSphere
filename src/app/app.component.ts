@@ -1,31 +1,40 @@
 // src/app/app.component.ts
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { Router, RouterOutlet } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
+import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { UserService } from './core/services/user.service';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [
-        RouterOutlet,
         HeaderComponent,
-        FooterComponent,
         MatCardModule,
         MatProgressSpinnerModule,
+        MatSidenavModule,
+        MatButtonModule,
+        RouterOutlet,
+        FooterComponent,
+        NavbarComponent,
     ],
     templateUrl: './app.component.html',
     styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
     protected isAuthChecked = signal(false);
-
     private userService = inject(UserService);
     private router = inject(Router);
+
+    public get isAuthenticated() {
+        return this.userService.isAuthenticated;
+    }
 
     ngOnInit(): void {
         this.userService.firebaseUser$.subscribe(user => {
