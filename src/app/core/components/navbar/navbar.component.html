@@ -1,1 +1,17 @@
-<p>navbar works!</p>
+<div [class.expanded]="expanded" [class.mobile]="isMobile" class="navbar-container">
+  <mat-nav-list>
+    @for (item of navItems; track item.id) {
+      <a mat-list-item
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         [matTooltip]="!expanded && !isMobile ? item.title : null"
+         matTooltipPosition="after"
+         (click)="navigate(item.route)">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        @if (expanded && !isMobile) {
+          <span matListItemTitle>{{ item.title }}</span>
+        }
+      </a>
+    }
+  </mat-nav-list>
+</div>

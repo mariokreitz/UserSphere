@@ -1,0 +1,108 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.navbar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--mat-sys-surface);
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  transition: width 0.2s ease-in-out;
+  overflow: hidden;
+  width: 56px; // Collapsed width (icons only)
+  position: relative;
+
+  &.expanded {
+    width: auto;
+  }
+
+  // Mobile styles
+  &.mobile {
+    --mat-sidenav-container-width: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 56px; // Always show icons only on mobile
+
+    &.expanded {
+      width: 56px; // Keep icons only even when expanded on mobile
+    }
+  }
+}
+
+.toggle-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  cursor: pointer;
+  color: var(--mat-sys-on-surface);
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  mat-icon {
+    transition: transform 0.2s;
+  }
+}
+
+mat-nav-list {
+  flex: 1;
+  padding: 8px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  a {
+    margin: 0 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    min-width: 40px;
+    width: auto;
+    overflow: hidden;
+
+    &.active {
+      background-color: rgba(0, 0, 0, 0.08);
+      font-weight: 500;
+    }
+
+    &:hover:not(.active) {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    mat-icon {
+      margin-right: 24px;
+      color: var(--mat-sys-on-surface);
+    }
+
+    span {
+      white-space: nowrap;
+      color: var(--mat-sys-on-surface);
+      // Hide text on mobile
+      .mobile & {
+        display: none;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 959px) {
+  .navbar-container {
+    width: 56px; // Always show icons only on mobile
+
+    &.expanded {
+      width: 56px; // Keep icons only on mobile
+    }
+  }
+
+  // Hide tooltips on mobile since we're showing icons only
+  .mat-mdc-tooltip {
+    display: none !important;
+  }
+}

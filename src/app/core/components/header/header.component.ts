@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -13,14 +13,13 @@ import { UserService } from '../../services/user.service';
     selector: 'app-header',
     standalone: true,
     imports: [
-        CommonModule,
-        RouterModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatDividerModule,
-    ],
+    RouterModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatDividerModule
+],
     templateUrl: './header.component.html',
     styleUrls: [ './header.component.scss' ],
 })
