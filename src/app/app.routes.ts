@@ -28,6 +28,12 @@ export const routes: Routes = [
         canActivate: [ AuthGuard ],
     },
     {
+        path: 'settings',
+        loadComponent: () => import('./routes/settings/settings.component').then(m => m.SettingsComponent),
+        title: 'UserSphere - Einstellungen',
+        canActivate: [ AuthGuard ],
+    },
+    {
         path: '**',
         component: NotFoundComponent,
         title: 'UserSphere - 404',
