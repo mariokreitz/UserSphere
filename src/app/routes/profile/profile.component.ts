@@ -4,7 +4,7 @@ import { doc, docData, Firestore } from '@angular/fire/firestore';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -15,7 +15,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserInterface } from '../../../models/types/UserInterface';
-import { EditProfileDialogComponent } from './edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({
     selector: 'app-profile',
@@ -44,27 +43,10 @@ export class ProfileComponent implements OnInit {
     protected userData$!: Observable<UserInterface>;
     private route = inject(ActivatedRoute);
     private firestore = inject(Firestore);
-    private dialog = inject(MatDialog);
-    private datePipe = inject(DatePipe);
 
     ngOnInit(): void {
         const uid = this.route.snapshot.params['id'];
         const userRef = doc(this.firestore, `users/${uid}`);
         this.userData$ = docData(userRef, { idField: 'uid' }) as Observable<UserInterface>;
     }
-
-    openEditDialog(user: UserInterface): void {
-        const dialogRef = this.dialog.open(EditProfileDialogComponent, {
-            width: '500px',
-            data: { ...user },
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                // TODO: Update user data
-                console.log('Updated user data:', result);
-            }
-        });
-    }
-
 }

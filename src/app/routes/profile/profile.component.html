@@ -17,10 +17,6 @@
 			</div>
 		</div>
 		<div class="profile-actions">
-			<button mat-raised-button color="primary" (click)="openEditDialog(user)" class="action-button">
-				<mat-icon>edit</mat-icon>
-				Bearbeiten
-			</button>
 			<button mat-stroked-button class="action-button" routerLink="/dashboard">
 				<mat-icon>arrow_back</mat-icon>
 				Zurück
@@ -73,28 +69,6 @@
 							<div class="detail-label">Letzte Anmeldung</div>
 							<div class="detail-value">{{ user.UserMetadata.lastSignInTime | date:'medium' }}</div>
 						</div>
-					</div>
-				</mat-card-content>
-			</mat-card>
-
-			<mat-card class="security-card">
-				<mat-card-header>
-					<mat-card-title>Sicherheit</mat-card-title>
-				</mat-card-header>
-				<mat-card-content>
-					<div class="security-item">
-						<mat-icon>lock</mat-icon>
-						<span>Passwort ändern</span>
-						<button mat-icon-button>
-							<mat-icon>chevron_right</mat-icon>
-						</button>
-					</div>
-					<div class="security-item">
-						<mat-icon>security</mat-icon>
-						<span>Zweifaktor-Authentifizierung</span>
-						<button mat-icon-button>
-							<mat-icon>chevron_right</mat-icon>
-						</button>
 					</div>
 				</mat-card-content>
 			</mat-card>
