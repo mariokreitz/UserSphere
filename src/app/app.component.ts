@@ -1,4 +1,3 @@
-// src/app/app.component.ts
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +8,7 @@ import { take } from 'rxjs/operators';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { HeaderComponent } from './core/components/header/header.component';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
+import { ThemeService } from './core/services/theme.service';
 import { UserService } from './core/services/user.service';
 
 @Component({
@@ -31,12 +31,14 @@ export class AppComponent implements OnInit {
     protected isAuthChecked = signal(false);
     private userService = inject(UserService);
     private router = inject(Router);
+    private themeService = inject(ThemeService);
 
     public get isAuthenticated() {
         return this.userService.isAuthenticated;
     }
 
     ngOnInit(): void {
+        this.themeService.loadTheme();
         this.userService.firebaseUser$.subscribe(user => {
             if (user) {
                 const metadata = {
@@ -65,4 +67,5 @@ export class AppComponent implements OnInit {
               this.isAuthChecked.set(true);
           });
     }
+
 }
