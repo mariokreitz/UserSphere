@@ -14,7 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
-import { UserInterface } from '../../../models/types/UserInterface';
+import { CrmUserProfile } from '../../../models/types/UserInterface';
 
 @Component({
     selector: 'app-profile',
@@ -40,13 +40,14 @@ import { UserInterface } from '../../../models/types/UserInterface';
     providers: [ DatePipe ],
 })
 export class ProfileComponent implements OnInit {
-    protected userData$!: Observable<UserInterface>;
+    protected userData$!: Observable<CrmUserProfile>;
     private route = inject(ActivatedRoute);
     private firestore = inject(Firestore);
 
     ngOnInit(): void {
-        const uid = this.route.snapshot.params['id'];
+        const uid: string = this.route.snapshot.params['id'];
         const userRef = doc(this.firestore, `users/${uid}`);
-        this.userData$ = docData(userRef, { idField: 'uid' }) as Observable<UserInterface>;
+        this.userData$ = docData(userRef, { idField: 'uid' }) as Observable<CrmUserProfile>;
+
     }
 }

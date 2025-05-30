@@ -1,123 +1,155 @@
 @if (userData$ | async; as user) {
-	<!-- Header Section -->
-	<div class="profile-header">
-		<div class="profile-avatar">
-			<img [src]="user.photoURL || 'assets/images/default-avatar.png'" alt="Profilbild" class="avatar">
-		</div>
-		<div class="profile-info">
-			<h1>{{ user.username || 'Kein Name' }}</h1>
-			<div class="user-email">
-				<mat-icon>email</mat-icon>
-				<span>{{ user.email || 'Keine E-Mail' }}</span>
-			</div>
-			<div class="user-status">
-          <span class="status-badge" [class.verified]="user.emailVerified">
-            {{ user.emailVerified ? 'E-Mail verifiziert' : 'E-Mail nicht verifiziert' }}
-          </span>
-			</div>
-		</div>
-		<div class="profile-actions">
-			<button mat-stroked-button class="action-button" routerLink="/dashboard">
-				<mat-icon>arrow_back</mat-icon>
-				Zurück
-			</button>
-		</div>
-	</div>
+	<mat-card class="profile-card">
+		<div class="profile-header">
+			<img [src]="user.photoURL" alt="Profilbild" class="avatar" />
+			<div class="profile-info">
+				<h2>{{ user.username }}</h2>
 
-	<!-- Main Content -->
-	<div class="profile-content">
-		<!-- Left Column -->
+				@if (user.role) {
+					<div class="role-chip">
+						<mat-chip color="primary">{{ user.role | titlecase }}</mat-chip>
+					</div>
+				}
+
+				@if (user.teams?.length) {
+					<div class="teams">
+						<mat-chip>
+							@for (team of user.teams; track team) {
+								<mat-chip color="accent">{{ team }}</mat-chip>
+							}
+						</mat-chip>
+					</div>
+				}
+
+				<div class="profile-meta">
+					@if (user.position) {
+						<span>{{ user.position }}</span>
+					}
+					@if (user.department) {
+						<span>· {{ user.department }}</span>
+					}
+				</div>
+			</div>
+
+			<div class="profile-actions">
+				@if (user.socialLinks?.linkedin) {
+					<a [href]="user.socialLinks?.linkedin" matTooltip="LinkedIn" target="_blank">
+						<mat-icon>linkedin</mat-icon>
+					</a>
+				}
+				@if (user.socialLinks?.twitter) {
+					<a [href]="user.socialLinks?.twitter" matTooltip="Twitter" target="_blank">
+						<mat-icon>twitter</mat-icon>
+					</a>
+				}
+				@if (user.socialLinks?.github) {
+					<a [href]="user.socialLinks?.github" matTooltip="GitHub" target="_blank">
+						<mat-icon>code</mat-icon>
+					</a>
+				}
+			</div>
+		</div>
+
+		<mat-divider></mat-divider>
+
 		<div class="profile-details">
-			<mat-card class="details-card">
-				<mat-card-header>
-					<mat-card-title>Kontoinformationen</mat-card-title>
-				</mat-card-header>
-				<mat-card-content>
-					<div class="detail-item">
-						<mat-icon>person</mat-icon>
-						<div>
-							<div class="detail-label">Benutzername</div>
-							<div class="detail-value">{{ user.username || 'Nicht angegeben' }}</div>
-						</div>
-					</div>
-					<div class="detail-item">
-						<mat-icon>email</mat-icon>
-						<div>
-							<div class="detail-label">E-Mail</div>
-							<div class="detail-value">{{ user.email || 'Nicht angegeben' }}</div>
-						</div>
-					</div>
-					<div class="detail-item">
-						<mat-icon>verified_user</mat-icon>
-						<div>
-							<div class="detail-label">Status</div>
-							<div class="detail-value">
-								{{ user.emailVerified ? 'Verifiziert' : 'Nicht verifiziert' }}
-							</div>
-						</div>
-					</div>
-					<div class="detail-item" *ngIf="user.UserMetadata?.creationTime">
-						<mat-icon>calendar_today</mat-icon>
-						<div>
-							<div class="detail-label">Mitglied seit</div>
-							<div class="detail-value">{{ user.UserMetadata.creationTime | date:'mediumDate' }}</div>
-						</div>
-					</div>
-					<div class="detail-item" *ngIf="user.UserMetadata?.lastSignInTime">
-						<mat-icon>login</mat-icon>
-						<div>
-							<div class="detail-label">Letzte Anmeldung</div>
-							<div class="detail-value">{{ user.UserMetadata.lastSignInTime | date:'medium' }}</div>
-						</div>
-					</div>
-				</mat-card-content>
-			</mat-card>
-		</div>
+			<div class="detail-row">
+				<mat-icon>mail</mat-icon>
+				<span>{{ user.email }}</span>
+				@if (user.emailVerified) {
+					<mat-icon color="primary" matTooltip="E-Mail verifiziert">verified</mat-icon>
+				}
+			</div>
 
-		<!-- Right Column -->
-		<div class="profile-activity">
-			<mat-card class="activity-card">
-				<mat-card-header>
-					<mat-card-title>Aktivitäten</mat-card-title>
-				</mat-card-header>
-				<mat-card-content>
-					<div class="timeline">
-						<div class="timeline-item" *ngIf="user.UserMetadata?.creationTime">
-							<div class="timeline-badge">
-								<mat-icon>account_circle</mat-icon>
-							</div>
-							<div class="timeline-content">
-								<div class="timeline-title">Konto erstellt</div>
-								<div class="timeline-time">{{ user.UserMetadata.creationTime | date:'medium' }}</div>
-							</div>
-						</div>
-						<div class="timeline-item" *ngIf="user.UserMetadata?.lastSignInTime">
-							<div class="timeline-badge">
-								<mat-icon>login</mat-icon>
-							</div>
-							<div class="timeline-content">
-								<div class="timeline-title">Letzte Anmeldung</div>
-								<div class="timeline-time">{{ user.UserMetadata.lastSignInTime | date:'medium' }}</div>
-							</div>
-						</div>
-						<div class="timeline-item" *ngIf="user.emailVerified">
-							<div class="timeline-badge">
-								<mat-icon>verified</mat-icon>
-							</div>
-							<div class="timeline-content">
-								<div class="timeline-title">E-Mail verifiziert</div>
-								<div class="timeline-time">Am {{ user.UserMetadata.creationTime | date:'mediumDate' }}</div>
-							</div>
-						</div>
-					</div>
-				</mat-card-content>
-			</mat-card>
-		</div>
-	</div>
+			@if (user.phone) {
+				<div class="detail-row">
+					<mat-icon>phone</mat-icon>
+					<span>{{ user.phone }}</span>
+				</div>
+			}
 
+			@if (user.address) {
+				<div class="detail-row">
+					<mat-icon>location_on</mat-icon>
+					<span>
+            {{ user.address.street }}, {{ user.address.postalCode }} {{ user.address.city }}, {{ user.address.country }}
+          </span>
+				</div>
+			}
+
+			@if (user.birthday) {
+				<div class="detail-row">
+					<mat-icon>cake</mat-icon>
+					<span>{{ user.birthday | date }}</span>
+				</div>
+			}
+
+			<div class="detail-row">
+				<mat-icon>vpn_key</mat-icon>
+				<span>{{ user.uid }}</span>
+			</div>
+
+			@if (user.UserMetadata?.creationTime) {
+				<div class="detail-row">
+					<mat-icon>calendar_today</mat-icon>
+					<span>Erstellt: {{ user.UserMetadata.creationTime | date }}</span>
+				</div>
+			}
+
+			@if (user.UserMetadata?.lastSignInTime) {
+				<div class="detail-row">
+					<mat-icon>login</mat-icon>
+					<span>Letzter Login: {{ user.UserMetadata.lastSignInTime | date }}</span>
+				</div>
+			}
+
+			@if (user.permissions?.length) {
+				<div class="detail-row">
+					<mat-icon>lock</mat-icon>
+					<span>Berechtigungen:</span>
+					<mat-chip>
+						@for (perm of user.permissions; track perm) {
+							<mat-chip>{{ perm }}</mat-chip>
+						}
+					</mat-chip>
+				</div>
+			}
+
+			@if (user.assignedCustomers?.length) {
+				<div class="detail-row">
+					<mat-icon>group</mat-icon>
+					<span>Kunden: {{ user.assignedCustomers?.length }}</span>
+				</div>
+			}
+
+			@if (user.openTasks) {
+				<div class="detail-row">
+					<mat-icon>assignment</mat-icon>
+					<span>Offene Aufgaben: {{ user.openTasks }}</span>
+				</div>
+			}
+
+			@if (user.settings) {
+				<div class="detail-row">
+					<mat-icon>settings</mat-icon>
+					<span>
+            {{ user.settings.language }},
+            Benachrichtigungen: {{ user.settings.notifications ? 'an' : 'aus' }},
+            Theme: {{ user.settings.theme }}
+          </span>
+				</div>
+			}
+
+			@if (user.notes) {
+				<div class="detail-row">
+					<mat-icon>note</mat-icon>
+					<span>{{ user.notes }}</span>
+				</div>
+			}
+		</div>
+	</mat-card>
 } @else {
-	<div class="loading-container">
+	<div class="profile-loading">
 		<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-		<p>Benutzerdaten werden geladen...</p>
 	</div>
 }
