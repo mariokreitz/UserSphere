@@ -51,27 +51,6 @@ mat-dialog-actions {
   padding-right: var(--mat-sys-corner-extra-large);
 }
 
-@keyframes formFieldAppear {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-mat-form-field {
-  animation: formFieldAppear 20ms ease backwards;
-
-  @for $i from 1 through 5 {
-    &:nth-child(#{$i}) {
-      animation-delay: #{$i * 0.1}s;
-    }
-  }
-}
-
 @media (max-width: 600px) {
   mat-dialog-content {
     max-height: 70vh;
