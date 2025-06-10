@@ -104,6 +104,11 @@ main {
   color: var(--mat-sys-error) !important;
 }
 
+.snackbar-warning * {
+  background-color: #ffeb3b !important;
+  color: var(--mat-sys-on-background) !important;
+}
+
 .mat-drawer-content {
   display: flex !important;
 }
