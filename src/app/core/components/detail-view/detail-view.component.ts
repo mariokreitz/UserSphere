@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute } from '@angular/router';
 import { Customer } from '../../../../models/interface/CustomerInterface';
-import { normalizeCustomerDates } from '../../../../utils/misc';
 import { CustomerService } from '../../services/customer.service';
 
 @Component({
@@ -17,6 +16,7 @@ import { CustomerService } from '../../services/customer.service';
     ],
     templateUrl: './detail-view.component.html',
     styleUrl: './detail-view.component.scss',
+    providers: [ DatePipe ],
 })
 export class DetailViewComponent implements OnInit {
     customer = signal<Customer | null>(null);
@@ -24,14 +24,14 @@ export class DetailViewComponent implements OnInit {
     error = signal<string | null>(null);
     private route = inject(ActivatedRoute);
     private customerService = inject(CustomerService);
+    private datePipe = inject(DatePipe);
 
     ngOnInit() {
         const id = this.route.snapshot.paramMap.get('id');
         if (id) {
             this.customerService.getById(id).subscribe({
                 next: (customer) => {
-                    const normalized = normalizeCustomerDates(customer);
-                    this.customer.set(normalized);
+                    this.customer.set(customer);
                     this.loading.set(false);
                 },
                 error: (err) => {
@@ -43,6 +43,18 @@ export class DetailViewComponent implements OnInit {
             this.error.set('Keine Kunden-ID angegeben.');
             this.loading.set(false);
         }
+    }
+
+    formatDate(date: any): string {
+        if (!date) return '';
+
+        if (date instanceof Date) {
+            return this.datePipe.transform(date, 'short') || '';
+        } else if (date && typeof date === 'object' && 'seconds' in date) {
+            return this.datePipe.transform(new Date(date.seconds * 1000), 'short') || '';
+        }
+
+        return this.datePipe.transform(date, 'short') || '';
     }
 }
 

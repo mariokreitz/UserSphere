@@ -56,16 +56,17 @@
 				}
 				<div>
 					<mat-icon>today</mat-icon>
-					<strong>Erstellt am:</strong> {{ customer()?.createdAt | date:'short' }}
+					<strong>Erstellt am:</strong> {{ formatDate(customer()?.createdAt) }}
 				</div>
 				<div>
 					<mat-icon>update</mat-icon>
-					<strong>Aktualisiert am:</strong> {{ customer()?.updatedAt | date:'short' }}
+
+					<strong>Aktualisiert am:</strong> {{ formatDate(customer()?.updatedAt) }}
 				</div>
 				@if (customer()?.lastContactDate) {
 					<div>
 						<mat-icon>history</mat-icon>
-						<strong>Letzter Kontakt:</strong> {{ customer()?.lastContactDate | date:'short' }}
+						<strong>Letzter Kontakt:</strong> {{ formatDate(customer()?.lastContactDate) }}
 					</div>
 				}
 				@if (customer()?.category) {

@@ -24,9 +24,9 @@ export interface Customer {
 
     assignedTo?: string; // Verantwortlicher Mitarbeiter (ID)
 
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
-    lastContactDate?: Timestamp;
+    createdAt: Timestamp | Date;
+    updatedAt: Timestamp | Date;
+    lastContactDate?: Timestamp | Date;
 
     // Referenzen (IDs werden später mit entsprechenden Services aufgelöst)
     activityIds?: string[];
