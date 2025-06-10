@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Auth, user, User as FirebaseUser } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { UserInterface } from '../../../models/types/UserInterface';
+import { UserInterface } from '../../../models/interface/UserInterface';
 
 @Injectable({
     providedIn: 'root',

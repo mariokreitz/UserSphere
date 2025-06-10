@@ -11,7 +11,7 @@ import {
 } from '@angular/fire/auth';
 import { doc, Firestore, getDoc, setDoc } from '@angular/fire/firestore';
 import { from } from 'rxjs';
-import { UserInterface } from '../../../models/types/UserInterface';
+import { UserInterface } from '../../../models/interface/UserInterface';
 
 @Injectable({
     providedIn: 'root',
@@ -96,7 +96,7 @@ export class AuthService {
             emailVerified: cred.user.emailVerified,
             UserMetadata: metadata,
         };
-        
+
         await setDoc(doc(this.firestore, 'users', userData.uid), userData);
     }
 
