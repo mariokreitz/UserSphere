@@ -1,33 +1,6 @@
-<mat-toolbar color="primary">
-	<a (click)="navigateToDashboardIfAuthenticated('/')" class="logo">
-		<mat-icon>token</mat-icon>
-		<span>UserSphere</span>
-	</a>
-
-	<span class="spacer"></span>
-
-	@if (isUserAuthenticated()) {
-		<button [matMenuTriggerFor]="userMenu" class="user-button" mat-stroked-button>
-			<mat-icon>
-				<img [src]="userPhotoUrl" alt="Avatar" class="avatar">
-			</mat-icon>
-			<span class="username">{{ userName }}</span>
-		</button>
-
-		<mat-menu #userMenu="matMenu">
-			<button (click)="navigate('/profile/' + user()?.uid)" mat-menu-item>
-				<mat-icon>person</mat-icon>
-				<span>Info</span>
-			</button>
-			<button (click)="navigate('/settings')" mat-menu-item>
-				<mat-icon>settings</mat-icon>
-				<span>Einstellungen</span>
-			</button>
-			<mat-divider></mat-divider>
-			<button (click)="onLogout()" mat-menu-item>
-				<mat-icon>logout</mat-icon>
-				<span>Logout</span>
-			</button>
-		</mat-menu>
-	}
-</mat-toolbar>
+<header class="app-header">
+	<div class="header-content">
+		<mat-icon class="logo" svgIcon="logo" />
+		<span class="title">UserSphere</span>
+	</div>
+</header>
