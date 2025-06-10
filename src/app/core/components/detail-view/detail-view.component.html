@@ -1,0 +1,64 @@
+<div [class.loading]="loading" class="detail-view-container">
+  <div class="detail-header">
+    <div class="title-container">
+      <button (click)="onBack.emit()" aria-label="Zurück" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>{{ title }}</h2>
+    </div>
+
+    <div class="actions">
+      <ng-container *ngTemplateOutlet="actionsTemplate"></ng-container>
+      @if (showEditButton) {
+        <button (click)="onEdit.emit()" color="primary" mat-raised-button>
+          {{ editButtonText }}
+        </button>
+      }
+      @if (showDeleteButton) {
+        <button (click)="onDelete.emit()" color="warn" mat-raised-button>
+          {{ deleteButtonText }}
+        </button>
+      }
+    </div>
+  </div>
+
+  @if (loading) {
+    <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+  }
+
+  @if (!loading) {
+    <div class="detail-content">
+      <mat-card>
+        <mat-card-content>
+          @if (contentTemplate) {
+            <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: data }"></ng-container>
+          } @else {
+            <div class="property-grid">
+              @for (field of fields; track field) {
+                <div class="property-label">{{ field.label }}:</div>
+                <div class="property-value">
+                  @if (field.template) {
+                    <ng-container *ngTemplateOutlet="field.template; context: { $implicit: getPropertyValue(data, field.key) }"></ng-container>
+                  } @else {
+                    {{ getPropertyValue(data, field.key) || '-' }}
+                  }
+                </div>
+              }
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+      @if (tabs && tabs.length > 0) {
+        <mat-tab-group class="detail-tabs">
+          @for (tab of tabs; track tab) {
+            <mat-tab [label]="tab.label">
+              <div class="tab-content">
+                <ng-container *ngTemplateOutlet="tab.content; context: { $implicit: data }"></ng-container>
+              </div>
+            </mat-tab>
+          }
+        </mat-tab-group>
+      }
+    </div>
+  }
+</div>
