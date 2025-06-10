@@ -40,7 +40,7 @@ export class CustomerService extends FirestoreService<Customer> {
             email,
             phoneNumber,
             mobileNumber,
-            updatedAt: new Date(),
+            updatedAt: { seconds: Date.now() / 1000, nanoseconds: 0 }, // Firestore Timestamp format
         });
     }
 

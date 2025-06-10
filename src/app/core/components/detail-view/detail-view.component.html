@@ -1,64 +1,97 @@
-<div [class.loading]="loading" class="detail-view-container">
-  <div class="detail-header">
-    <div class="title-container">
-      <button (click)="onBack.emit()" aria-label="Zurück" mat-icon-button>
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <h2>{{ title }}</h2>
-    </div>
-
-    <div class="actions">
-      <ng-container *ngTemplateOutlet="actionsTemplate"></ng-container>
-      @if (showEditButton) {
-        <button (click)="onEdit.emit()" color="primary" mat-raised-button>
-          {{ editButtonText }}
-        </button>
-      }
-      @if (showDeleteButton) {
-        <button (click)="onDelete.emit()" color="warn" mat-raised-button>
-          {{ deleteButtonText }}
-        </button>
-      }
-    </div>
-  </div>
-
-  @if (loading) {
-    <mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
-  }
-
-  @if (!loading) {
-    <div class="detail-content">
-      <mat-card>
-        <mat-card-content>
-          @if (contentTemplate) {
-            <ng-container *ngTemplateOutlet="contentTemplate; context: { $implicit: data }"></ng-container>
-          } @else {
-            <div class="property-grid">
-              @for (field of fields; track field) {
-                <div class="property-label">{{ field.label }}:</div>
-                <div class="property-value">
-                  @if (field.template) {
-                    <ng-container *ngTemplateOutlet="field.template; context: { $implicit: getPropertyValue(data, field.key) }"></ng-container>
-                  } @else {
-                    {{ getPropertyValue(data, field.key) || '-' }}
-                  }
-                </div>
-              }
-            </div>
-          }
-        </mat-card-content>
-      </mat-card>
-      @if (tabs && tabs.length > 0) {
-        <mat-tab-group class="detail-tabs">
-          @for (tab of tabs; track tab) {
-            <mat-tab [label]="tab.label">
-              <div class="tab-content">
-                <ng-container *ngTemplateOutlet="tab.content; context: { $implicit: data }"></ng-container>
-              </div>
-            </mat-tab>
-          }
-        </mat-tab-group>
-      }
-    </div>
-  }
+<div class="customer-detail-container">
+	@if (loading()) {
+		<div class="loading">
+			<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+		</div>
+	} @else if (error()) {
+		<div class="error">
+			<mat-icon color="warn">error</mat-icon>
+			<span>{{ error() }}</span>
+		</div>
+	} @else if (customer()) {
+		<div class="customer-card">
+			<h2>
+				{{ customer()?.firstName }} {{ customer()?.lastName }}
+				<span class="customer-type">{{ customer()?.customerType }}</span>
+			</h2>
+			<div class="customer-info">
+				@if (customer()?.company) {
+					<div>
+						<mat-icon>business</mat-icon>
+						<strong>Firma:</strong> {{ customer()?.company }}
+					</div>
+				}
+				@if (customer()?.position) {
+					<div>
+						<mat-icon>work</mat-icon>
+						<strong>Position:</strong> {{ customer()?.position }}
+					</div>
+				}
+				<div>
+					<mat-icon>email</mat-icon>
+					<strong>E-Mail:</strong> {{ customer()?.email }}
+				</div>
+				@if (customer()?.phoneNumber) {
+					<div>
+						<mat-icon>call</mat-icon>
+						<strong>Telefon:</strong> {{ customer()?.phoneNumber }}
+					</div>
+				}
+				@if (customer()?.mobileNumber) {
+					<div>
+						<mat-icon>smartphone</mat-icon>
+						<strong>Mobil:</strong> {{ customer()?.mobileNumber }}
+					</div>
+				}
+				@if (customer()?.address) {
+					<div>
+						<mat-icon>location_on</mat-icon>
+						<strong>Adresse:</strong>
+						<span>
+							{{ customer()?.address?.street }} {{ customer()?.address?.houseNumber }},
+							{{ customer()?.address?.postalCode }} {{ customer()?.address?.city }},
+							{{ customer()?.address?.country }}
+						</span>
+					</div>
+				}
+				<div>
+					<mat-icon>today</mat-icon>
+					<strong>Erstellt am:</strong> {{ customer()?.createdAt | date:'short' }}
+				</div>
+				<div>
+					<mat-icon>update</mat-icon>
+					<strong>Aktualisiert am:</strong> {{ customer()?.updatedAt | date:'short' }}
+				</div>
+				@if (customer()?.lastContactDate) {
+					<div>
+						<mat-icon>history</mat-icon>
+						<strong>Letzter Kontakt:</strong> {{ customer()?.lastContactDate | date:'short' }}
+					</div>
+				}
+				@if (customer()?.category) {
+					<div>
+						<mat-icon>category</mat-icon>
+						<strong>Kategorie:</strong> {{ customer()?.category }}
+					</div>
+				}
+				@if (customer()?.tags?.length) {
+					<div>
+						<mat-icon>label</mat-icon>
+						<strong>Tags:</strong>
+						<span class="tags">
+							@for (tag of customer()?.tags; track tag) {
+								<span class="tag">{{ tag }}</span>
+							}
+						</span>
+					</div>
+				}
+				@if (customer()?.notes) {
+					<div>
+						<mat-icon>notes</mat-icon>
+						<strong>Notizen:</strong> {{ customer()?.notes }}
+					</div>
+				}
+			</div>
+		</div>
+	}
 </div>

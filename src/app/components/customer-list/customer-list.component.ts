@@ -107,6 +107,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         this.router.navigate([
             '/dashboard/customers',
             customer.id,
+            'details',
         ]);
     }
 

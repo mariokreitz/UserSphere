@@ -7,19 +7,19 @@ import { NotFoundComponent } from './routes/not-found/not-found.component';
 export const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
         title: 'UserSphere - Startseite',
+        component: HomeComponent,
     },
     {
         path: 'login',
-        component: LoginComponent,
         title: 'UserSphere - Login',
+        component: LoginComponent,
     },
     {
         path: 'dashboard',
-        loadComponent: () => import('./routes/dashboard/dashboard.component').then(m => m.DashboardComponent),
         title: 'UserSphere - Dashboard',
         canActivate: [ AuthGuard ],
+        loadComponent: () => import('./routes/dashboard/dashboard.component').then(m => m.DashboardComponent),
         children: [
             {
                 path: '',
@@ -28,25 +28,38 @@ export const routes: Routes = [
             },
             {
                 path: 'customers',
-                loadComponent: () => import('./components/customer-list/customer-list.component').then(m => m.CustomerListComponent),
+                children: [
+                    {
+                        path: '',
+                        title: 'UserSphere - Kundenliste',
+                        loadComponent: () => import('./components/customer-list/customer-list.component').then(m => m.CustomerListComponent),
+
+                    },
+                    {
+                        path: ':id/details',
+                        title: 'UserSphere - Kundendetails',
+                        loadComponent: () => import('./core/components/detail-view/detail-view.component').then(m => m.DetailViewComponent),
+
+                    },
+                ],
             },
             {
                 path: 'profile/:id',
-                loadComponent: () => import('./routes/profile/profile.component').then(m => m.ProfileComponent),
                 title: 'UserSphere - Profil',
                 canActivate: [ AuthGuard ],
+                loadComponent: () => import('./routes/profile/profile.component').then(m => m.ProfileComponent),
             },
             {
                 path: 'settings',
-                loadComponent: () => import('./routes/settings/settings.component').then(m => m.SettingsComponent),
                 title: 'UserSphere - Einstellungen',
                 canActivate: [ AuthGuard ],
+                loadComponent: () => import('./routes/settings/settings.component').then(m => m.SettingsComponent),
             },
             {
                 path: 'overview',
-                loadComponent: () => import('./routes/overview/overview.component').then(m => m.OverviewComponent),
                 title: 'UserSphere - Übersicht',
                 canActivate: [ AuthGuard ],
+                loadComponent: () => import('./routes/overview/overview.component').then(m => m.OverviewComponent),
             },
         ],
     },

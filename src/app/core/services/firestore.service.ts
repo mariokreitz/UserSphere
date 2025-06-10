@@ -3,10 +3,15 @@ import { AngularFirestore, AngularFirestoreCollection, QueryFn } from '@angular/
 import { from, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+interface Timestamp {
+    seconds: number;
+    nanoseconds: number;
+}
+
 export interface BaseEntity {
-    id?: string;
-    createdAt: Date;
-    updatedAt: Date;
+    id: string;
+    createdAt: Timestamp | Date; // Firestore Timestamp oder Date-Objekt
+    updatedAt: Timestamp | Date; // Firestore Timestamp oder Date-Objekt
 }
 
 @Injectable()

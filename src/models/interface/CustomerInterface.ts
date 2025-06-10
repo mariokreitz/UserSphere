@@ -24,13 +24,18 @@ export interface Customer {
 
     assignedTo?: string; // Verantwortlicher Mitarbeiter (ID)
 
-    createdAt: Date;
-    updatedAt: Date;
-    lastContactDate?: Date;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
+    lastContactDate?: Timestamp;
 
     // Referenzen (IDs werden später mit entsprechenden Services aufgelöst)
     activityIds?: string[];
     documentIds?: string[];
 
     notes?: string;
+}
+
+interface Timestamp {
+    seconds: number;
+    nanoseconds: number;
 }
