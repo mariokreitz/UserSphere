@@ -27,6 +27,10 @@ export const routes: Routes = [
                 redirectTo: 'overview',
             },
             {
+                path: 'customers',
+                loadComponent: () => import('./components/customer-list/customer-list.component').then(m => m.CustomerListComponent),
+            },
+            {
                 path: 'profile/:id',
                 loadComponent: () => import('./routes/profile/profile.component').then(m => m.ProfileComponent),
                 title: 'UserSphere - Profil',
