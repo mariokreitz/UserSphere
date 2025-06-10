@@ -1,0 +1,30 @@
+<app-list-view
+			(onAdd)="onAddCustomer()"
+			(onPageChanged)="onPageChanged($event)"
+			(onRowClick)="onCustomerClick($event)"
+			(onSearch)="searchCustomers($event)"
+			(onSortChanged)="sortCustomers($event)"
+			[columns]="columns"
+			[items]="customers"
+			[loading]="loading()"
+			title="Kundenliste">
+</app-list-view>
+
+<ng-template #fullNameTpl let-item>
+	{{ item.firstName }} {{ item.lastName }}
+</ng-template>
+
+<ng-template #typeTpl let-item>
+	{{ getCustomerTypeLabel(item.customerType) }}
+</ng-template>
+
+<ng-template #actionsColumnTpl let-customer>
+	<div class="action-buttons">
+		<button (click)="onEditCustomer($event, customer)" mat-icon-button>
+			<mat-icon>edit</mat-icon>
+		</button>
+		<button (click)="onDeleteCustomer($event, customer)" mat-icon-button>
+			<mat-icon>delete</mat-icon>
+		</button>
+	</div>
+</ng-template>
