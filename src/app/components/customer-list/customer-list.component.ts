@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, OnInit, signal, TemplateRef, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
@@ -10,6 +11,7 @@ import { Customer } from '../../../models/interface/CustomerInterface';
 import { ListViewComponent } from '../../core/components/list-view/list-view.component';
 import { CustomerService } from '../../core/services/customer.service';
 import { SnackbarService } from '../../core/services/snackbar.service';
+import { CustomerFormDialogComponent } from './dialog/customer-form.component';
 
 interface ColumnDefinition {
     key: string;
@@ -24,6 +26,7 @@ interface ColumnDefinition {
         ListViewComponent,
         MatIconModule,
         MatButtonModule,
+        MatDialogModule,
     ],
     templateUrl: './customer-list.component.html',
     styleUrl: './customer-list.component.scss',
@@ -37,13 +40,11 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     readonly typeTpl = viewChild<TemplateRef<any>>('typeTpl');
     readonly actionsColumnTpl = viewChild<TemplateRef<any>>('actionsColumnTpl');
 
-    constructor(
-      private customerService: CustomerService,
-      private router: Router,
-      private cdr: ChangeDetectorRef,
-      private snackbarService: SnackbarService,
-    ) {
-    }
+    private customerService: CustomerService = inject(CustomerService);
+    private router: Router = inject(Router);
+    private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+    private snackbarService: SnackbarService = inject(SnackbarService);
+    private dialog = inject(MatDialog);
 
     ngOnInit() {
         this.loadCustomers();
@@ -110,16 +111,50 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     }
 
     onAddCustomer() {
-        this.router.navigate([ '/dashboard/customers/new' ]);
+        const dialogRef = this.dialog.open(CustomerFormDialogComponent, {
+            width: '600px',
+            data: { isNewCustomer: true },
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.customerService.create(result)
+                  .subscribe({
+                      next: () => {
+                          this.snackbarService.success('Kunde erfolgreich erstellt');
+                          this.loadCustomers();
+                      },
+                      error: (err) => {
+                          console.error('Fehler beim Erstellen des Kunden:', err);
+                          this.snackbarService.error('Kunde konnte nicht erstellt werden');
+                      },
+                  });
+            }
+        });
     }
 
     onEditCustomer(event: Event, customer: Customer) {
         event.stopPropagation();
-        this.router.navigate([
-            '/dashboard/customers',
-            customer.id,
-            'edit',
-        ]);
+        const dialogRef = this.dialog.open(CustomerFormDialogComponent, {
+            width: '600px',
+            data: { isNewCustomer: false, customer },
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.customerService.update(customer.id, result)
+                  .subscribe({
+                      next: () => {
+                          this.snackbarService.success('Kunde erfolgreich erstellt');
+                          this.loadCustomers();
+                      },
+                      error: (err) => {
+                          console.error('Fehler beim Erstellen des Kunden:', err);
+                          this.snackbarService.error('Kunde konnte nicht erstellt werden');
+                      },
+                  });
+            }
+        });
     }
 
     onDeleteCustomer(event: Event, customer: Customer) {
