@@ -34,14 +34,6 @@ export class LoginComponent {
     private router = inject(Router);
     private snackbarService = inject(SnackbarService);
 
-    public get email() {
-        return this.signupForm.get('email');
-    }
-
-    public get password() {
-        return this.signupForm.get('password');
-    }
-
     constructor() {
         this.signupForm = new FormGroup({
             email: new FormControl<string | null>(
@@ -60,7 +52,6 @@ export class LoginComponent {
               ],
             ),
         });
-
     }
 
     public togglePasswordVisibility() {
@@ -119,7 +110,7 @@ export class LoginComponent {
                 this.isLoading.set(false);
                 this.snackbarService.error('Fehler beim Anmelden mit GitHub');
                 this.router.navigateByUrl('/login');
-                
+
             },
         });
     }

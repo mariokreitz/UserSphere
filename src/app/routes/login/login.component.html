@@ -1,77 +1,73 @@
-<section class="login-section">
-	<form (ngSubmit)="onSubmit()" [formGroup]="signupForm" autocomplete="on" class="login-form">
-		<h2>Login</h2>
-		<mat-form-field appearance="outline" class="full-width">
-			<mat-label>E-Mail</mat-label>
-			<input autocomplete="username" formControlName="email" matInput type="email" />
-			<mat-icon matPrefix>mail</mat-icon>
-			@if (email?.hasError('required')) {
-				<mat-error>E-Mail ist erforderlich</mat-error>
-			}
-			@if (email?.hasError('email')) {
-				<mat-error>Ungültige E-Mail-Adresse</mat-error>
-			}
-		</mat-form-field>
+<div class="login-container">
+	<div class="login-card">
+		<h1 class="login-title">Anmelden</h1>
+		<div class="login-subtitle">Willkommen zurück! Bitte melde dich an, um fortzufahren.</div>
 
-		<mat-form-field appearance="outline" class="full-width">
-			<mat-label>Passwort</mat-label>
-			<input
-						[type]="isPasswordVisible() ? 'text' : 'password'"
-						autocomplete="current-password"
-						formControlName="password"
-						matInput />
-			<button (click)="togglePasswordVisibility()"
-							aria-label="Passwort anzeigen/verbergen"
-							mat-icon-button
-							matSuffix
-							tabindex="-1"
-							type="button">
-				<mat-icon>{{ isPasswordVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+		<form (ngSubmit)="onSubmit()" [formGroup]="signupForm" autocomplete="on" class="login-form">
+			<mat-form-field appearance="outline" class="mat-mdc-form-field">
+				<mat-label>E-Mail</mat-label>
+				<input autocomplete="email" formControlName="email" matInput required type="email" />
+				<mat-icon matPrefix>mail</mat-icon>
+				@if (signupForm.get('email')!.hasError('required') && signupForm.get('email')!.touched) {
+					<mat-error>E-Mail ist erforderlich</mat-error>
+				}
+				@if (signupForm.get('email')!.hasError('email') && signupForm.get('email')!.touched) {
+					<mat-error>Ungültige E-Mail-Adresse</mat-error>
+				}
+			</mat-form-field>
+
+			<mat-form-field appearance="outline" class="mat-mdc-form-field">
+				<mat-label>Passwort</mat-label>
+				<input [type]="isPasswordVisible() ? 'text' : 'password'"
+							 autocomplete="current-password"
+							 formControlName="password"
+							 matInput
+							 required />
+				<button (click)="togglePasswordVisibility()"
+								aria-label="Passwort anzeigen/verbergen"
+								mat-icon-button
+								matSuffix
+								tabindex="-1"
+								type="button">
+					<mat-icon>{{ isPasswordVisible() ? 'visibility_off' : 'visibility' }}</mat-icon>
+				</button>
+				<mat-icon matPrefix>lock</mat-icon>
+				@if (signupForm.get('password')!.hasError('required') && signupForm.get('password')!.touched) {
+					<mat-error>Passwort ist erforderlich</mat-error>
+				}
+				@if (signupForm.get('password')!.hasError('minlength') && signupForm.get('password')!.touched) {
+					<mat-error>Mindestens 8 Zeichen</mat-error>
+				}
+				@if (signupForm.get('password')!.hasError('pattern') && !signupForm.get('password')!.hasError('minlength') && signupForm.get('password')!.touched) {
+					<mat-error>Mindestens 1 Buchstabe & 1 Zahl</mat-error>
+				}
+				@if (signupForm.get('password')!.hasError('invalidPassword') && signupForm.get('password')!.touched) {
+					<mat-error>{{ signupForm.get('password')!.getError('invalidPassword') }}</mat-error>
+				}
+			</mat-form-field>
+
+			<div class="login-actions">
+				<button [disabled]="isLoading() || signupForm.invalid" class="login-btn" color="primary" mat-flat-button type="submit">
+					@if (isLoading()) {
+						<mat-progress-spinner color="accent" diameter="22" mode="indeterminate"></mat-progress-spinner>
+					} @else {
+						<span>Anmelden</span>
+					}
+				</button>
+			</div>
+		</form>
+
+		<div class="divider">oder</div>
+
+		<div class="social-login">
+			<button (click)="signInWithGoogle()" [disabled]="isLoading()" class="social-btn" mat-stroked-button type="button">
+				<mat-icon svgIcon="google"></mat-icon>
+				Mit Google anmelden
 			</button>
-			<mat-icon matPrefix>lock</mat-icon>
-			@if (password?.hasError('required')) {
-				<mat-error>Passwort ist erforderlich</mat-error>
-			}
-			@if (password?.hasError('minlength')) {
-				<mat-error>Mindestens 8 Zeichen</mat-error>
-			}
-			@if (password?.hasError('pattern') && !password?.hasError("minlength")) {
-				<mat-error>Mindestens 1 Buchstabe & 1 Zahl</mat-error>
-			}
-			@if (password?.hasError('invalidPassword')) {
-				<mat-error>{{ password?.getError('invalidPassword') }}</mat-error>
-			}
-		</mat-form-field>
-
-		<button [disabled]="isLoading()" class="full-width" color="primary" mat-flat-button type="submit">
-			@if (isLoading()) {
-				<mat-progress-spinner color="accent" diameter="20" mode="indeterminate"></mat-progress-spinner>
-			} @else {
-				<span>Login</span>
-			}
-		</button>
-
-		<div class="divider">
-			<span>oder</span>
+			<button (click)="signInWithGithub()" [disabled]="isLoading()" class="social-btn" mat-stroked-button type="button">
+				<mat-icon svgIcon="github"></mat-icon>
+				Mit GitHub anmelden
+			</button>
 		</div>
-
-		<button (click)="signInWithGoogle()"
-						[disabled]="isLoading()"
-						class="full-width social-btn"
-						color="primary"
-						mat-stroked-button
-						type="button">
-			<mat-icon svgIcon="google"></mat-icon>
-			Mit Google anmelden
-		</button>
-		<button (click)="signInWithGithub()"
-						[disabled]="isLoading()"
-						class="full-width social-btn"
-						color="primary"
-						mat-stroked-button
-						type="button">
-			<mat-icon svgIcon="github"></mat-icon>
-			Mit GitHub anmelden
-		</button>
-	</form>
-</section>
+	</div>
+</div>

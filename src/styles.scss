@@ -28,6 +28,7 @@ html {
           typography: Roboto,
           density: 0,
   ));
+  background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
 }
 
 // Dark Theme
@@ -53,8 +54,8 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
+
 }
 
 
