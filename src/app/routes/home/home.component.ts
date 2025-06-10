@@ -1,4 +1,3 @@
-import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +18,6 @@ import { HeaderComponent } from '../../core/components/header/header.component';
         RouterLink,
         HeaderComponent,
         FooterComponent,
-        NgOptimizedImage,
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss',
