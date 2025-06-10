@@ -161,7 +161,16 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
         event.stopPropagation();
         if (confirm(`Möchten Sie ${customer.firstName} ${customer.lastName} wirklich löschen?`)) {
             this.customerService.delete(customer.id)
-              .subscribe(() => this.loadCustomers());
+              .subscribe({
+                  next: () => {
+                      this.snackbarService.success('Kunde erfolgreich gelöscht');
+                      this.loadCustomers();
+                  },
+                  error: (err) => {
+                      console.error('Fehler beim Löschen des Kunden:', err);
+                      this.snackbarService.error('Kunde konnte nicht gelöscht werden');
+                  },
+              });
         }
     }
 
