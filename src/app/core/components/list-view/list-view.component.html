@@ -1,0 +1,81 @@
+<div class="list-view-container">
+	<div class="list-header">
+		<h2>{{ title() }}</h2>
+	</div>
+
+	<div class="toolbar">
+		@if (showSearch()) {
+			<div class="search-container">
+				<mat-form-field appearance="outline" class="search-field">
+					<mat-label>Suche</mat-label>
+					<input (keyup)="onSearchChange()" [(ngModel)]="searchTerm" matInput>
+				</mat-form-field>
+			</div>
+		}
+
+		<div class="actions">
+			<ng-container *ngTemplateOutlet="actionsTemplate()"></ng-container>
+			@if (showAddButton()) {
+				<button (click)="onAdd.emit()" color="primary" mat-raised-button>
+					{{ addButtonText() }}
+				</button>
+			}
+		</div>
+	</div>
+
+	<div class="table-container">
+		@if (loading()) {
+			<div class="loading-overlay">
+				<mat-progress-spinner diameter="50" mode="indeterminate"></mat-progress-spinner>
+			</div>
+		}
+
+		@if (items().length === 0 && !loading()) {
+			<div class="empty-state">
+				<mat-icon>search</mat-icon>
+				<p>{{ noDataMessage() }}</p>
+			</div>
+		}
+
+		@if (items().length > 0) {
+			<table (matSortChange)="onSort($event)" [dataSource]="items()" mat-table matSort>
+				@for (column of columns(); track column) {
+					<ng-container [matColumnDef]="column.key">
+						<th *matHeaderCellDef [disabled]="!column.sortable" mat-header-cell mat-sort-header>
+							{{ column.label }}
+						</th>
+						<td *matCellDef="let item" mat-cell>
+							@if (column.template) {
+								<ng-container *ngTemplateOutlet="column.template; context: { $implicit: item }"></ng-container>
+							} @else {
+								{{ getPropertyValue(item, column.key) }}
+							}
+						</td>
+					</ng-container>
+				}
+				@if (actionsColumnTemplate()) {
+					<ng-container matColumnDef="actions">
+						<th *matHeaderCellDef mat-header-cell>Aktionen</th>
+						<td *matCellDef="let item" mat-cell>
+							<ng-container *ngTemplateOutlet="actionsColumnTemplate() || null; context: { $implicit: item }"></ng-container>
+						</td>
+					</ng-container>
+				}
+				<tr *matHeaderRowDef="getColumnKeys()" mat-header-row></tr>
+				<tr (click)="onRowClick.emit(row)" *matRowDef="let row; columns: getColumnKeys()" mat-row></tr>
+			</table>
+		}
+	</div>
+
+	@if (showPaginator()) {
+		<div class="list-footer">
+			<mat-paginator
+						[length]="items().length"
+						[pageSize]="pageSize()"
+						[pageSizeOptions]="pageSizeOptions()"
+						(page)="onPageChanged.emit($event)">
+			</mat-paginator>
+		</div>
+	}
+</div>
+
