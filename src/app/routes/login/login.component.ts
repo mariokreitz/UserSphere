@@ -44,15 +44,21 @@ export class LoginComponent {
 
     constructor() {
         this.signupForm = new FormGroup({
-            email: new FormControl<string | null>(null, [
-                Validators.required,
-                Validators.email,
-            ]),
-            password: new FormControl<string | null>(null, [
-                Validators.required,
-                Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-                Validators.minLength(8),
-            ]),
+            email: new FormControl<string | null>(
+              { value: null, disabled: false },
+              [
+                  Validators.required,
+                  Validators.email,
+              ],
+            ),
+            password: new FormControl<string | null>(
+              { value: null, disabled: false },
+              [
+                  Validators.required,
+                  Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
+                  Validators.minLength(8),
+              ],
+            ),
         });
 
     }
@@ -78,7 +84,6 @@ export class LoginComponent {
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
-                console.error(err);
                 this.isLoading.set(false);
                 this.setFormError('password', 'invalidPassword', 'Benutzername oder Passwort sind falsch');
             },
@@ -95,9 +100,9 @@ export class LoginComponent {
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
-                console.error(err);
                 this.isLoading.set(false);
                 this.snackbarService.error('Fehler beim Anmelden mit Google');
+                this.router.navigateByUrl('/login');
             },
         });
     }
@@ -111,9 +116,10 @@ export class LoginComponent {
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
-                console.error(err);
                 this.isLoading.set(false);
                 this.snackbarService.error('Fehler beim Anmelden mit GitHub');
+                this.router.navigateByUrl('/login');
+                
             },
         });
     }

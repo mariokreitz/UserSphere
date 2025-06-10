@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -10,6 +11,7 @@ import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimationsAsync(),
+        provideHttpClient(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes, withEnabledBlockingInitialNavigation()),
         provideFirebaseApp(() => initializeApp(environment)),

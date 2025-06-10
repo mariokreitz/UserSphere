@@ -1,33 +1,3 @@
-<div class="h-full container flexbox-column-between">
-	@if (isAuthChecked()) {
-		<app-header></app-header>
-		<main>
-			<mat-drawer-container class="flexbox-center h-full w-full" autosize>
-				@if (isAuthenticated()) {
-					<mat-drawer #drawer opened mode="side">
-						<app-navbar></app-navbar>
-					</mat-drawer>
-				}
-				<mat-drawer-content style="padding: 0.5rem">
-					<router-outlet></router-outlet>
-				</mat-drawer-content>
-			</mat-drawer-container>
-		</main>
-		<app-footer></app-footer>
-
-	} @else {
-		<div class="loading-backdrop">
-			<mat-card appearance="outlined" class="loading-card">
-				<mat-card-content>
-					<mat-progress-spinner
-								color="primary"
-								diameter="60"
-								mode="indeterminate"
-								strokeWidth="5">
-					</mat-progress-spinner>
-					<p>Wird geladen…</p>
-				</mat-card-content>
-			</mat-card>
-		</div>
-	}
+<div class="container">
+	<router-outlet></router-outlet>
 </div>

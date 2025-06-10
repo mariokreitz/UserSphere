@@ -1,35 +1,45 @@
-:host {
-  margin: auto
+
+:host section {
+  height: 100%;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--mat-sys-surface);
 }
 
-.toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.hero {
-  display: flex;
+.container {
   align-items: center;
-  justify-content: center;
+  max-width: 420px;
+  gap: 2.5rem;
+}
+
+mat-icon.main-icon {
+  font-size: 4rem;
+  width: auto;
+  height: 100%;
+  color: var(--mat-sys-primary);
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+p.subtitle {
+  font-size: 1.15rem;
+  color: var(--mat-sys-on-surface-variant);
   text-align: center;
-  padding: 6rem 2rem;
+  margin: 0 0 1.5rem 0;
+}
 
-  .hero-content {
-    max-width: 800px;
+.button-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  justify-content: center;
+}
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    button {
-      font-size: 1rem;
-    }
-  }
+button {
+  min-width: 120px;
 }

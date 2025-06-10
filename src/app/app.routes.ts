@@ -20,18 +20,31 @@ export const routes: Routes = [
         loadComponent: () => import('./routes/dashboard/dashboard.component').then(m => m.DashboardComponent),
         title: 'UserSphere - Dashboard',
         canActivate: [ AuthGuard ],
-    },
-    {
-        path: 'profile/:id',
-        loadComponent: () => import('./routes/profile/profile.component').then(m => m.ProfileComponent),
-        title: 'UserSphere - Profil',
-        canActivate: [ AuthGuard ],
-    },
-    {
-        path: 'settings',
-        loadComponent: () => import('./routes/settings/settings.component').then(m => m.SettingsComponent),
-        title: 'UserSphere - Einstellungen',
-        canActivate: [ AuthGuard ],
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'overview',
+            },
+            {
+                path: 'profile/:id',
+                loadComponent: () => import('./routes/profile/profile.component').then(m => m.ProfileComponent),
+                title: 'UserSphere - Profil',
+                canActivate: [ AuthGuard ],
+            },
+            {
+                path: 'settings',
+                loadComponent: () => import('./routes/settings/settings.component').then(m => m.SettingsComponent),
+                title: 'UserSphere - Einstellungen',
+                canActivate: [ AuthGuard ],
+            },
+            {
+                path: 'overview',
+                loadComponent: () => import('./routes/overview/overview.component').then(m => m.OverviewComponent),
+                title: 'UserSphere - Übersicht',
+                canActivate: [ AuthGuard ],
+            },
+        ],
     },
     {
         path: '**',

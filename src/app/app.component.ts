@@ -1,71 +1,48 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconRegistry } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { Router, RouterOutlet } from '@angular/router';
-import { take } from 'rxjs/operators';
-import { FooterComponent } from './core/components/footer/footer.component';
-import { HeaderComponent } from './core/components/header/header.component';
-import { NavbarComponent } from './core/components/navbar/navbar.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
-import { UserService } from './core/services/user.service';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [
-        HeaderComponent,
         MatCardModule,
         MatProgressSpinnerModule,
         MatSidenavModule,
         MatButtonModule,
         RouterOutlet,
-        FooterComponent,
-        NavbarComponent,
+
     ],
     templateUrl: './app.component.html',
     styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
-    protected isAuthChecked = signal(false);
-    private userService = inject(UserService);
-    private router = inject(Router);
     private themeService = inject(ThemeService);
+    private iconRegistry = inject(MatIconRegistry);
+    private sanitizer = inject(DomSanitizer);
 
-    public get isAuthenticated() {
-        return this.userService.isAuthenticated;
+    constructor() {
+        const iconNames = [
+            'google',
+            'github',
+            'login',
+        ];
+        iconNames.forEach(name =>
+          this.iconRegistry.addSvgIcon(
+            name,
+            this.sanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${name}.svg`),
+          ),
+        );
     }
 
     ngOnInit(): void {
         this.themeService.loadTheme();
-        this.userService.firebaseUser$.subscribe(user => {
-            if (user) {
-                const metadata = {
-                    creationTime: user.metadata.creationTime || null,
-                    lastSignInTime: user.metadata.lastSignInTime || null,
-                };
-                this.userService.currentUser.set({
-                    uid: user.uid,
-                    email: user.email ?? '',
-                    username: user.displayName ?? '',
-                    photoURL: user.photoURL ?? '',
-                    emailVerified: user.emailVerified,
-                    UserMetadata: metadata,
-                });
-            } else {
-                this.userService.currentUser.set(null);
-            }
-        });
-
-        this.userService.isAuthenticated$
-          .pipe(take(1))
-          .subscribe(isAuth => {
-              if (isAuth && (this.router.url === '/login' || this.router.url === '' || this.router.url === '/')) {
-                  this.router.navigate([ '/dashboard' ]);
-              }
-              this.isAuthChecked.set(true);
-          });
     }
 
 }
