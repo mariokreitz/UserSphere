@@ -32,7 +32,7 @@ export const routes: Routes = [
                     {
                         path: '',
                         title: 'UserSphere - Kundenliste',
-                        loadComponent: () => import('./components/customer-list/customer-list.component').then(m => m.CustomerListComponent),
+                        loadComponent: () => import('./routes/customers/customers.component').then(m => m.CustomersComponent),
 
                     },
                     {
