@@ -1,0 +1,9 @@
+.dashboard-layout {
+  display: flex;
+  flex-direction: row;
+  min-height: calc(100vh - 60px); // minus the height of the header
+}
+
+.dashboard-content {
+  flex: 1 1 0;
+}

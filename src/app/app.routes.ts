@@ -36,7 +36,7 @@ export const routes: Routes = [
 
                     },
                     {
-                        path: ':id/details',
+                        path: 'details/:id',
                         title: 'UserSphere - Kundendetails',
                         loadComponent: () => import('./core/components/detail-view/detail-view.component').then(m => m.DetailViewComponent),
 

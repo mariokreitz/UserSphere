@@ -33,7 +33,9 @@ export class AppComponent implements OnInit {
             'github',
             'login',
             'logo',
-            'network',
+            'home',
+            'customers',
+            'settings',
         ];
         iconNames.forEach(name =>
           this.iconRegistry.addSvgIcon(

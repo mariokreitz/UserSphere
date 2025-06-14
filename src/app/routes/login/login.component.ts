@@ -71,7 +71,6 @@ export class LoginComponent {
         this.authService.signIn(email!, password!).subscribe({
             next: (res) => {
                 this.isLoading.set(false);
-                this.snackbarService.success('Erfolgreich angemeldet');
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
@@ -87,7 +86,6 @@ export class LoginComponent {
         this.authService.signInWithGoogle().subscribe({
             next: () => {
                 this.isLoading.set(false);
-                this.snackbarService.success('Erfolgreich mit Google angemeldet');
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {
@@ -103,7 +101,6 @@ export class LoginComponent {
         this.authService.signInWithGithub().subscribe({
             next: () => {
                 this.isLoading.set(false);
-                this.snackbarService.success('Erfolgreich mit GitHub angemeldet');
                 this.router.navigateByUrl('/dashboard');
             },
             error: (err) => {

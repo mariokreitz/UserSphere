@@ -3,16 +3,10 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserService } from '../../services/user.service';
-
-interface NavItem {
-    id: number;
-    icon: string;
-    title: string;
-    route: string;
-}
+import { NavItem } from '../../../../models/types/navbarItem';
+import { NAV_ITEMS } from '../../config/nav.config';
 
 @Component({
     selector: 'app-navbar',
@@ -26,27 +20,16 @@ interface NavItem {
     styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-    public navItems: NavItem[] = [
-        { id: 1, icon: 'home', title: 'Dashboard', route: '/dashboard' },
-        { id: 2, icon: 'person', title: 'Profile', route: '/profile' },
-        { id: 3, icon: 'settings', title: 'Settings', route: '/settings' },
-    ];
+    public navItems: NavItem[] = [];
     public isMobile = false;
-    public expanded = true;
 
-    private userService = inject(UserService);
     private router = inject(Router);
+    private route = inject(ActivatedRoute);
     private breakpointObserver = inject(BreakpointObserver);
     private breakpointSubscription!: Subscription;
 
     public ngOnInit(): void {
-        this.navItems = this.navItems.map(item => {
-            if (item.title === 'Profile') {
-                return { ...item, route: `${item.route}/${this.userService.currentUser()?.uid}` };
-            }
-            return item;
-        });
-
+        this.navItems = NAV_ITEMS;
         this.checkScreenSize();
 
         this.breakpointSubscription = this.breakpointObserver
@@ -56,25 +39,24 @@ export class NavbarComponent implements OnInit, OnDestroy {
           ])
           .subscribe(result => {
               this.isMobile = result.matches;
-              this.expanded = !this.isMobile;
-              const drawerElement = document.querySelector<HTMLElement>('.mat-drawer');
-              if (drawerElement) {
-                  drawerElement.style.width = 'unset';
-              }
           });
     }
 
     public ngOnDestroy(): void {
-        if (this.breakpointSubscription) {
-            this.breakpointSubscription.unsubscribe();
-        }
+        this.breakpointSubscription?.unsubscribe();
     }
 
     public navigate(route: string): void {
-        this.router.navigate([ route ]);
-        if (this.isMobile) {
-            this.expanded = false;
+        if (route.startsWith('/')) {
+            this.router.navigate([ route ]);
+            return;
         }
+
+        const currentPath = this.router.url;
+        const basePath = currentPath.split('/')[1];
+        const targetPath = `/${basePath}/${route}`;
+
+        this.router.navigate([ targetPath ]);
     }
 
     private checkScreenSize(): void {
@@ -82,7 +64,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
             Breakpoints.Handset,
             Breakpoints.Tablet,
         ]);
-        this.expanded = !this.isMobile;
     }
-
 }

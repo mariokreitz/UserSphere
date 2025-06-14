@@ -11,9 +11,8 @@
   flex-direction: column;
   height: 100%;
   background: var(--mat-sys-surface);
-  transition: width 0.2s ease-in-out;
   overflow: hidden;
-  width: 64px;
+  width: auto; // Feste Breite statt toggle
   position: relative;
 
   &.expanded {
@@ -26,6 +25,7 @@
     left: 0;
     bottom: 0;
     z-index: 1000;
+    width: 64px; // Schmaler für Mobile
   }
 
   .nav-list {
@@ -75,8 +75,9 @@ mat-nav-list {
     }
 
     mat-icon {
-      margin-right: 24px;
-      color: var(--mat-sys-primary);
+      ::ng-deep svg {
+        fill: var(--mat-sys-primary);
+      }
     }
 
     span {
@@ -89,4 +90,3 @@ mat-nav-list {
     }
   }
 }
-

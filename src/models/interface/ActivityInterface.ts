@@ -1,5 +1,5 @@
 export interface Activity {
-    id?: string;
+    id: string;
 
     type: 'call' | 'meeting' | 'email' | 'note' | 'task' | 'other';
     title: string;

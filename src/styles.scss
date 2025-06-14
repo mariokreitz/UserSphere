@@ -75,7 +75,6 @@ body {
 main {
   flex: 1 1 auto;
   width: 100%;
-  padding: 2rem 0;
 }
 
 .flexbox-column {
@@ -107,8 +106,4 @@ main {
 .snackbar-warning * {
   background-color: #ffeb3b !important;
   color: var(--mat-sys-on-background) !important;
-}
-
-.mat-drawer-content {
-  display: flex !important;
 }
